@@ -21,6 +21,18 @@ void SwerveModule::Set(double speed, double angle) {
 
     angle -= std::floor(angle / 360.0) * 360.0;
 
+    double currentA = m_pivotSensor.GetVoltage() * 360.0 / 5.0;
+    double currentB = currentA - 360.0 * std::floor(currentB) * 360.0;
+
+    double diffA = 180.0 - std::abs(std::abs(angle - currentA) - 180.0);
+    double diffB = 180.0 - std::abs(std::abs(angle - currentB) - 180.0);
+
+    if (diffB < diffA) { 
+        angle += 180.0;
+        angle -= std::floor(angle / 360.0) * 360.0;
+        speed *= -1;
+    }
+
     m_driveMotor.Set(speed);
 
     frc::SmartDashboard::PutNumber("Swerve Error " + std::to_string(m_driveMotor.GetDeviceId()), m_pivotController.GetError() / 5.0 * 360.0);
