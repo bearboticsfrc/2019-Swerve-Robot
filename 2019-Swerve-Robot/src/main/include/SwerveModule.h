@@ -17,6 +17,8 @@ public:
 
     double getAngle() const;
 
+    double getRawAngle() const;
+
 private:
     rev::CANSparkMax m_driveMotor;
 

@@ -40,4 +40,6 @@ class Robot : public frc::TimedRobot {
   static std::array< std::unique_ptr< SwerveModule >, 4 > m_swerveModules;
 
   static std::unique_ptr< frc::Joystick > m_joystick;
+
+  static std::unique_ptr< PigeonIMU > m_gyro;
 };
