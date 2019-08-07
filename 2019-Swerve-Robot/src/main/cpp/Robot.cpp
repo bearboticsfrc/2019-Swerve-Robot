@@ -34,7 +34,7 @@ void Robot::RobotInit() {
   // 2, 6, 1
   // 3, 7, 2
   // 4, 8, 3
-  std::array< double, 4 > offsets = { 138.0, 354.0, 309.0, 139.0 };
+  std::array< double, 4 > offsets = { 138.0, 354.0, 203.0, 139.0 };
   for (int i = 0; i < m_swerveModules.size(); ++i) {
     m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
   }

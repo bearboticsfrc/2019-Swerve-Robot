@@ -22,23 +22,14 @@ void SwerveModule::Set(double speed, double angle) {
 
     angle -= std::floor(angle / 360.0) * 360.0;
 
-<<<<<<< HEAD
     double currentA = m_pivotSensor.GetValue() * 360.0 / 4096.0;
     double currentB = currentA + 180;
     currentB -= std::floor(currentB / 360.0) * 360.0;
-=======
-    double currentA = m_pivotSensor.GetVoltage() * 360.0 / 5.0;
-    double currentB = currentA - 360.0 * std::floor(currentB) * 360.0;
->>>>>>> cd191e5f1b61a3092821c5fcff4add02a698db4a
 
     double diffA = 180.0 - std::abs(std::abs(angle - currentA) - 180.0);
     double diffB = 180.0 - std::abs(std::abs(angle - currentB) - 180.0);
 
-<<<<<<< HEAD
     if (diffB < diffA) {
-=======
-    if (diffB < diffA) { 
->>>>>>> cd191e5f1b61a3092821c5fcff4add02a698db4a
         angle += 180.0;
         angle -= std::floor(angle / 360.0) * 360.0;
         speed *= -1;
