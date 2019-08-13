@@ -61,5 +61,6 @@
     "optional": "cpp",
     "string_view": "cpp",
     "iomanip": "cpp"
-  }
+  },
+  "C_Cpp.configurationWarnings": "Disabled"
 }
