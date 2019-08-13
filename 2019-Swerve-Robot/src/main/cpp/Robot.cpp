@@ -11,6 +11,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iomanip>
+#include <string>
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
@@ -22,18 +23,18 @@ std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 
 std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 
+std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  /*for (int i = 0; i < m_sparks.size(); ++i) {
-    m_sparks[i] = std::make_unique< rev::CANSparkMax >(i + 1, rev::CANSparkMax::MotorType::kBrushless);
-  }*/
-  // 1, 5, 0
-  // 2, 6, 1
-  // 3, 7, 2
-  // 4, 8, 3
+  // Swerve Module | Pivot Motor | Drive Motor
+  // 1             | 5           | 0
+  // 2             | 6           | 1
+  // 3             | 7           | 2
+  // 4             | 8           | 3
   std::array< double, 4 > offsets = { 138.0, 354.0, 203.0, 139.0 };
   for (int i = 0; i < m_swerveModules.size(); ++i) {
     m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
@@ -42,6 +43,8 @@ void Robot::RobotInit() {
   m_joystick = std::make_unique< frc::Joystick >(0);
 
   m_gyro = std::make_unique< PigeonIMU >(10);
+
+  hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
 
   frc::SmartDashboard::init();
 }

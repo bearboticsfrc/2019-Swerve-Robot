@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include "SwerveModule.h"
-
 #include <string>
 #include <memory>
 #include <array>
@@ -18,6 +16,9 @@
 #include <frc/Joystick.h>
 
 #include <rev/CANSparkMax.h>
+
+#include "SwerveModule.h"
+#include "HatchManipulator.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -35,11 +36,13 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  //static std::array< std::unique_ptr< rev::CANSparkMax >, 4 > m_sparks;
-
   static std::array< std::unique_ptr< SwerveModule >, 4 > m_swerveModules;
 
-  static std::unique_ptr< frc::Joystick > m_joystick;
 
   static std::unique_ptr< PigeonIMU > m_gyro;
+
+public:
+  static std::unique_ptr< frc::Joystick > m_joystick;
+  
+  static std::unique_ptr< HatchManipulator > hatchManipulator;
 };
