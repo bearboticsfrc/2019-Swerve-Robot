@@ -8,7 +8,7 @@
 #include "HatchManipulator.h"
 
 HatchManipulator::HatchManipulator(int extendPort, int retractPort, int motorPort) :
-  Subsystem("ExampleSubsystem"),
+  Subsystem("HatchManipulator"),
   extendSolenoid(extendPort),
   retractSolenoid(retractPort),
   driveMotor(motorPort)

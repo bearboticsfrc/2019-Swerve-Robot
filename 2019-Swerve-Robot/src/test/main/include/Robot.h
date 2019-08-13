@@ -45,4 +45,6 @@ public:
   static std::unique_ptr< frc::Joystick > m_joystick;
   
   static std::unique_ptr< HatchManipulator > hatchManipulator;
+
+  static std::unique_ptr< CargoManipulator > cargoManipulator;
 };

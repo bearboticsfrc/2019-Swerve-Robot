@@ -25,6 +25,8 @@ std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 
 std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
 
+std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
@@ -43,8 +45,10 @@ void Robot::RobotInit() {
   m_joystick = std::make_unique< frc::Joystick >(0);
 
   m_gyro = std::make_unique< PigeonIMU >(10);
-
+  //HatchManipulator(int extendPort, int retractPort, int motorPort);
   hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
+  //CargoManipulator(int neoPort, int motorPort, int limitPort);
+  cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
 
   frc::SmartDashboard::init();
 }

@@ -9,14 +9,13 @@
 
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
-#include <DigitalInput.h>
-#include <SparkMax.h>
+#include <rev/CANSparkMax.h>
 #include <ctre/Phoenix.h>
 class CargoManipulator : public frc::Subsystem {
  private:
- rev::SparkMax neoMotor;
+ rev::CANSparkMax neoMotor;
  WPI_VictorSPX otherMotor;
- DigitalInput limitSwitch;
+ frc::DigitalInput limitSwitch;
 
  public:
   CargoManipulator(int neoPort, int motorPort, int limitPort);
