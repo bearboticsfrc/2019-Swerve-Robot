@@ -30,6 +30,11 @@ double XboxControl::GetRightJoystickX(){
 double XboxControl::GetRightJoystickY() {
   return controller.GetY(kRightHand);
 }
-double XboxControl::
+bool XboxControl::GetLeftBumper() {
+  return controller.GetBumperPressed(kLeftHand);
+}
+bool XboxControl::GetRightBumper() {
+  return controller.GetBumperPressed(kRightHand);
+}
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
