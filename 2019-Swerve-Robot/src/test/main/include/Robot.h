@@ -19,7 +19,8 @@
 
 #include "SwerveModule.h"
 #include "HatchManipulator.h"
-
+#include "CargoManipulator.h"
+#include "XboxControl.h"
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;

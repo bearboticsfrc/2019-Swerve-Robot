@@ -19,8 +19,8 @@
 
 std::array< std::unique_ptr< SwerveModule >, 4 > Robot::m_swerveModules{};
 
-std::unique_ptr< frc::Joystick > Robot::m_joystick{};
-
+//std::unique_ptr< frc::Joystick > Robot::m_joystick{};
+std::unique_ptr< XboxControl > Robot::m_xboxController{};
 std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 
 std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
@@ -42,8 +42,8 @@ void Robot::RobotInit() {
     m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
   }
 
-  m_joystick = std::make_unique< frc::Joystick >(0);
-
+  # m_joystick = std::make_unique< frc::Joystick >(0);
+  m_xboxController = std::make_unique< XboxControl >(0);
   m_gyro = std::make_unique< PigeonIMU >(10);
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
   hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
