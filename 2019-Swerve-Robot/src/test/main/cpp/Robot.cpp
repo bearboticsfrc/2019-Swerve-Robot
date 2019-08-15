@@ -12,14 +12,14 @@
 #include <algorithm>
 #include <iomanip>
 #include <string>
-
+#include <math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-//std::array< std::unique_ptr< rev::CANSparkMax >, 4 > Robot::m_sparks{};
+
 
 std::array< std::unique_ptr< SwerveModule >, 4 > Robot::m_swerveModules{};
 
-//std::unique_ptr< frc::Joystick > Robot::m_joystick{};
+std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 std::unique_ptr< XboxControl > Robot::m_xboxController{};
 std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 
@@ -42,8 +42,8 @@ void Robot::RobotInit() {
     m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
   }
 
-  # m_joystick = std::make_unique< frc::Joystick >(0);
-  m_xboxController = std::make_unique< XboxControl >(0);
+  m_joystick = std::make_unique< frc::Joystick >(0);
+  m_xboxController = std::make_unique< XboxControl >(1);
   m_gyro = std::make_unique< PigeonIMU >(10);
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
   hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
@@ -108,13 +108,17 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {
   m_gyro->SetYaw(90.0);
-}
+  }
 
 void Robot::TeleopPeriodic() {
-  double x =  m_joystick->GetX();
-  double y = -m_joystick->GetY();
-  double r = -m_joystick->GetZ();
-
+  //For Joystick control
+  //double x =  m_joystick->GetX();
+  //double y = -m_joystick->GetY();
+  //double r = -m_joystick->GetZ();
+  //For Xbox Control
+  double x = m_xboxController->GetLeftJoystickX();
+  double y = m_xboxController->GetLeftJoystickY();
+  double r = m_xboxController->GetRightJoystickX();
   static double targetGyro = 90.0;
 
   targetGyro -= 360.0 * std::floor(targetGyro / 360.0);

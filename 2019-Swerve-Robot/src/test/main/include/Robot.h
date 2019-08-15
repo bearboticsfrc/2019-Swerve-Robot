@@ -48,4 +48,6 @@ public:
   static std::unique_ptr< HatchManipulator > hatchManipulator;
 
   static std::unique_ptr< CargoManipulator > cargoManipulator;
+  
+  static std::unique_ptr< XboxControl > m_xboxController;
 };
