@@ -19,6 +19,7 @@
 
 #include "SwerveModule.h"
 #include "HatchManipulator.h"
+#include "CargoManipulator.h"
 
 class Robot : public frc::TimedRobot {
  public:

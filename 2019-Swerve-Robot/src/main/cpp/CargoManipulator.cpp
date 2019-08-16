@@ -9,7 +9,7 @@
 
 CargoManipulator::CargoManipulator(int neoPort, int motorPort, int limitPort) :
   Subsystem("CargoManipulator"),
-  neoMotor(neoPort),
+  neoMotor(neoPort, rev::CANSparkMax::MotorType::kBrushless),
   otherMotor(motorPort),
   limitSwitch(limitPort)
    { 
