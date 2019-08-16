@@ -37,7 +37,7 @@ void Robot::RobotInit() {
   // 2             | 6           | 1
   // 3             | 7           | 2
   // 4             | 8           | 3
-  std::array< double, 4 > offsets = { 138.0, 354.0, 203.0, 139.0 };
+  std::array< double, 4 > offsets = { 138.0, 4.5, 203.0, 139.0 };
   for (int i = 0; i < m_swerveModules.size(); ++i) {
     m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
   }
@@ -46,9 +46,9 @@ void Robot::RobotInit() {
   m_xboxController = std::make_unique< XboxControl >(1);
   m_gyro = std::make_unique< PigeonIMU >(10);
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
-  hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
+  //hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
   //CargoManipulator(int neoPort, int motorPort, int limitPort);
-  cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
+  //cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
 
   frc::SmartDashboard::init();
 }
@@ -117,8 +117,17 @@ void Robot::TeleopPeriodic() {
   //double r = -m_joystick->GetZ();
   //For Xbox Control
   double x = m_xboxController->GetLeftJoystickX();
-  double y = m_xboxController->GetLeftJoystickY();
-  double r = m_xboxController->GetRightJoystickX();
+  double y = -m_xboxController->GetLeftJoystickY();
+  double r;
+  if (m_xboxController->GetLeftBumper()) {
+    r = 1;
+  }
+  else if (m_xboxController->GetRightBumper()) {
+    r = -1;
+  }
+  else {
+    r = 0;
+  }
   static double targetGyro = 90.0;
 
   targetGyro -= 360.0 * std::floor(targetGyro / 360.0);

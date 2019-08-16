@@ -8,17 +8,18 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include <frc/XboxController.h>
-class XboxControl : public frc::Subsystem {
+#include <frc/DigitalInput.h>
+#include <rev/SparkMax.h>
+#include <ctre/Phoenix.h>
+class CargoManipulator : public frc::Subsystem {
  private:
-  // It's desirable that everything possible under private except
-  // for methods that implement subsystem capabilities
-  frc::XboxController controller;
+ rev::SparkMax neoMotor;
+ WPI_VictorSPX otherMotor;
+ //frc::DigitalInput limitSwitch;
+
  public:
-  XboxControl(int port);
+  CargoManipulator(int neoPort, int motorPort, int limitPort);
   void InitDefaultCommand() override;
-  double GetLeftJoystickX();
-  double GetLeftJoystickY();
-  double GetRightJoystickX();
-  double GetRightJoystickY();
+  void setOutMotorSpeed(double speed);
+  void extendManipulator(bool extend);
 };

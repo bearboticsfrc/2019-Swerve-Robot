@@ -10,12 +10,11 @@
 CargoManipulator::CargoManipulator(int neoPort, int motorPort, int limitPort) :
   Subsystem("CargoManipulator"),
   neoMotor(neoPort),
-  otherMotor(motorPort),
-  limitSwitch(limitPort)
-   { 
+  otherMotor(motorPort)
+  { 
      extendManipulator(false);
      setOutMotorSpeed(0.0);
-   }
+  }
 
 void CargoManipulator::InitDefaultCommand() {
   // Set the default command for a subsystem here.

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "../../test/main/cpp/XboxControl.h"
+#include "XboxControl.h"
 
 XboxControl::XboxControl(int port) : 
 Subsystem("XboxControl"),
@@ -19,22 +19,22 @@ void XboxControl::InitDefaultCommand() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 double XboxControl::GetLeftJoystickX() {
- return controller.GetX(kLeftHand);
+ return controller.GetX(frc::GenericHID::JoystickHand::kLeftHand);
 }
 double XboxControl::GetLeftJoystickY() {
-  return controller.GetY(kLeftHand);
+  return controller.GetY(frc::GenericHID::JoystickHand::kLeftHand);
 }
 double XboxControl::GetRightJoystickX(){
-  return controller.GetX(kRightHand);
+  return controller.GetX(frc::GenericHID::JoystickHand::kRightHand);
 }
 double XboxControl::GetRightJoystickY() {
-  return controller.GetY(kRightHand);
-}
+  return controller.GetY(frc::GenericHID::JoystickHand::kRightHand);
+  }
 bool XboxControl::GetLeftBumper() {
-  return controller.GetBumperPressed(kLeftHand);
+  return controller.GetBumper(frc::GenericHID::JoystickHand::kLeftHand);
 }
 bool XboxControl::GetRightBumper() {
-  return controller.GetBumperPressed(kRightHand);
+  return controller.GetBumper(frc::GenericHID::JoystickHand::kRightHand);
 }
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
