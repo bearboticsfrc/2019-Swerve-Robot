@@ -15,7 +15,7 @@ class CargoManipulator : public frc::Subsystem {
  private:
  rev::SparkMax neoMotor;
  WPI_VictorSPX otherMotor;
- //frc::DigitalInput limitSwitch;
+ frc::DigitalInput limitSwitch;
 
  public:
   CargoManipulator(int neoPort, int motorPort, int limitPort);

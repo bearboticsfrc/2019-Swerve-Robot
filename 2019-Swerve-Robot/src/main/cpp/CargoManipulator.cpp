@@ -10,7 +10,8 @@
 CargoManipulator::CargoManipulator(int neoPort, int motorPort, int limitPort) :
   Subsystem("CargoManipulator"),
   neoMotor(neoPort),
-  otherMotor(motorPort)
+  otherMotor(motorPort),
+  limitSwitch(limitPort)
   { 
      extendManipulator(false);
      setOutMotorSpeed(0.0);
