@@ -16,7 +16,6 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 
-
 std::array< std::unique_ptr< SwerveModule >, 4 > Robot::m_swerveModules{};
 
 std::unique_ptr< frc::Joystick > Robot::m_joystick{};
@@ -51,6 +50,7 @@ void Robot::RobotInit() {
   //cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
 
   frc::SmartDashboard::init();
+
 }
 
 void Robot::RobotPeriodic() {
@@ -64,6 +64,7 @@ void Robot::RobotPeriodic() {
 
     frc::SmartDashboard::PutNumber("Swerve Speed " + std::to_string(i), temp);
   }
+
 }
 
 void Robot::AutonomousInit() {
