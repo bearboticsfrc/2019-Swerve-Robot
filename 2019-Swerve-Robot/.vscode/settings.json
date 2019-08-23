@@ -60,6 +60,16 @@
     "utility": "cpp",
     "optional": "cpp",
     "string_view": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "cstdarg": "cpp",
+    "algorithm": "cpp",
+    "iterator": "cpp",
+    "map": "cpp",
+    "memory_resource": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "set": "cpp",
+    "string": "cpp",
+    "cinttypes": "cpp"
   }
 }
