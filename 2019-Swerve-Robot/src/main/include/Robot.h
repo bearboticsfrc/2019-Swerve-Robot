@@ -17,10 +17,11 @@
 
 #include <rev/CANSparkMax.h>
 
-#include "SwerveModule.h"
 #include "HatchManipulator.h"
 #include "CargoManipulator.h"
 #include "XboxControl.h"
+#include "SwerveTrain.h"
+
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -37,12 +38,11 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  static std::array< std::unique_ptr< SwerveModule >, 4 > m_swerveModules;
-
 public:
+  static std::unique_ptr< SwerveTrain > swerveTrain;
 
   static std::unique_ptr< PigeonIMU > m_gyro;
-  
+
   static std::unique_ptr< frc::Joystick > m_joystick;
   
   static std::unique_ptr< HatchManipulator > hatchManipulator;

@@ -95,6 +95,10 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
 
 }
 
+const SwerveModule &SwerveTrain::getModule(std::size_t idx) {
+  return *modules[idx];
+}
+
 void SwerveTrain::InitDefaultCommand() {
     // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());

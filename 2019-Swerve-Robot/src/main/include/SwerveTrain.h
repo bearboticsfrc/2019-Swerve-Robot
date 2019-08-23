@@ -26,6 +26,8 @@ public:
 
   void drive(double xSpeed, double ySpeed, double angSpeed);
 
+  const SwerveModule &getModule(std::size_t idx);
+
 private:
   std::array< std::unique_ptr< SwerveModule >, moduleCount > modules;
 };

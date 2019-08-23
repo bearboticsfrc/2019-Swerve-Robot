@@ -15,8 +15,7 @@
 #include <math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-
-std::array< std::unique_ptr< SwerveModule >, 4 > Robot::m_swerveModules{};
+std::unique_ptr< SwerveTrain > Robot::swerveTrain{};
 
 std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 std::unique_ptr< XboxControl > Robot::m_xboxController{};
@@ -36,10 +35,15 @@ void Robot::RobotInit() {
   // 2             | 6           | 1
   // 3             | 7           | 2
   // 4             | 8           | 3
-  std::array< double, 4 > offsets = { 138.0, 4.5, 203.0, 139.0 };
-  for (int i = 0; i < m_swerveModules.size(); ++i) {
-    m_swerveModules[i] = std::make_unique< SwerveModule >(i + 1, i + 5, i, offsets[i]);
-  }
+
+#define ENTRY(X) std::tuple< int, int, int, double >{ X + 1, X + 5, X, offsets[X] }
+  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 138.0, 4.5, 203.0, 139.0 };
+  swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
+    ENTRY(0),
+    ENTRY(1),
+    ENTRY(2),
+    ENTRY(3)
+  });
 
   m_joystick = std::make_unique< frc::Joystick >(0);
   m_xboxController = std::make_unique< XboxControl >(1);
@@ -54,12 +58,12 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-  for (int i = 0; i < m_swerveModules.size(); ++i) {
-    double lastAngle = frc::SmartDashboard::GetNumber("Swerve Angle " + std::to_string(i), m_swerveModules[i]->getAngle());
-    frc::SmartDashboard::PutNumber("Swerve Raw Angle " + std::to_string(i), m_swerveModules[i]->getRawAngle());
-    frc::SmartDashboard::PutNumber("Swerve Angle " + std::to_string(i), m_swerveModules[i]->getAngle());
+  for (int i = 0; i < SwerveTrain::moduleCount; ++i) {
+    double lastAngle = frc::SmartDashboard::GetNumber("Swerve Angle " + std::to_string(i), swerveTrain->getModule(i).getAngle());
+    frc::SmartDashboard::PutNumber("Swerve Raw Angle " + std::to_string(i), swerveTrain->getModule(i).getRawAngle());
+    frc::SmartDashboard::PutNumber("Swerve Angle " + std::to_string(i), swerveTrain->getModule(i).getAngle());
 
-    double temp = m_swerveModules[i]->getAngle() + 360.0 - lastAngle;
+    double temp = swerveTrain->getModule(i).getAngle() + 360.0 - lastAngle;
     temp -= 360.0 * std::floor(temp / 360.0);
 
     frc::SmartDashboard::PutNumber("Swerve Speed " + std::to_string(i), temp);
@@ -117,6 +121,7 @@ void Robot::TeleopPeriodic() {
     r = 0;
   }
 
+  swerveTrain->drive(x, y, r);
 
   
   /* for (int i = 0; i < 4; ++i) {
