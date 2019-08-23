@@ -13,7 +13,7 @@ SwerveModule::SwerveModule(int driveMotorId, int pivotMotorId, int pivotSensorId
     m_pivotController.SetInputRange(0.0, 5.0);
     m_pivotController.SetOutputRange(-1.0, 1.0);
     m_pivotController.SetEnabled(true);
-    m_pivotMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    //m_pivotMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
     m_pivotController.SetSetpoint(m_zeroAngle / 360.0 * 5.0);
 }
 

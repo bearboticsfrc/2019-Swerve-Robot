@@ -7,15 +7,15 @@
 
 #include "CargoManipulator.h"
 
-CargoManipulator::CargoManipulator(int neoPort, int motorPort, int limitPort) :
+CargoManipulator::CargoManipulator(int neoID, int motorPort, int limitPort) :
   Subsystem("CargoManipulator"),
-  neoMotor(neoPort, rev::CANSparkMax::MotorType::kBrushless),
+  neoMotor(neoID, rev::CANSparkMax::MotorType::kBrushless),
   otherMotor(motorPort),
   limitSwitch(limitPort)
-   { 
+  { 
      extendManipulator(false);
      setOutMotorSpeed(0.0);
-   }
+  }
 
 void CargoManipulator::InitDefaultCommand() {
   // Set the default command for a subsystem here.

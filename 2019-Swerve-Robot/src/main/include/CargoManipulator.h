@@ -18,7 +18,7 @@ class CargoManipulator : public frc::Subsystem {
  frc::DigitalInput limitSwitch;
 
  public:
-  CargoManipulator(int neoPort, int motorPort, int limitPort);
+  CargoManipulator(int neoID, int motorPort, int limitPort);
   void InitDefaultCommand() override;
   void setOutMotorSpeed(double speed);
   void extendManipulator(bool extend);

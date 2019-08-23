@@ -21,7 +21,6 @@
 #include "HatchManipulator.h"
 #include "CargoManipulator.h"
 #include "XboxControl.h"
-#include "SwerveTrain.h"
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -37,11 +36,10 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
-  static std::unique_ptr< SwerveTrain > m_swerveTrain;
-
-  static std::unique_ptr< XboxControl > m_xboxController;
 
   static std::unique_ptr< PigeonIMU > m_gyro;
+
+  static std::array< std::unique_ptr< SwerveModule >, 4 > m_swerveModules;
 
 public:
   static std::unique_ptr< frc::Joystick > m_joystick;
@@ -50,4 +48,5 @@ public:
 
   static std::unique_ptr< CargoManipulator > cargoManipulator;
   
+  static std::unique_ptr< XboxControl > m_xboxController;
 };

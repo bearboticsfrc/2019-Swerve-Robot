@@ -7,18 +7,14 @@
 
 #pragma once
 
-#include <frc/commands/Subsystem.h>
-#include <ctre/phoenix/sensors/PigeonIMU.h>
-#include "SwerveModule.h"
-#include "XboxControl.h"
-class SwerveTrain : public frc::Subsystem {
- private:
-  static std::array< std::unique_ptr< SwerveModule >, 4 > m_swerveModules;
-  static std::unique_ptr< PigeonIMU > m_gyro;
+#include <frc/commands/Command.h>
 
+class AlignTarget : public frc::Command {
  public:
-  SwerveTrain();
-  void drive(double x, double y, double r);
-  void init();
-  void InitDefaultCommand() override;
+  AlignTarget();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
 };
