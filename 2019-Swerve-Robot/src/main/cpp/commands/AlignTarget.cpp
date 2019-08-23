@@ -15,6 +15,7 @@
 AlignTarget::AlignTarget() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
+  Requires(Robot::swerveTrain.get());
 }
 
 // Called just before this Command runs the first time
@@ -36,8 +37,7 @@ double getYAngle() {
 void AlignTarget::Execute() {
   double error = getXAngle();
 
-  // TODO:
-  // Robot::turn somehow
+  Robot::swerveTrain->drive(0.0, 0.0, error / 100.0);
 }
 
 // Make this return true when this Command no longer needs to run execute()
