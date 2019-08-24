@@ -112,7 +112,7 @@ void Robot::TeleopPeriodic() {
   double y = -m_xboxController->GetLeftJoystickY();
   double r = 0;
   //comment for bumper control
-  r = -m_xboxController->GetRightJoystickX() / 1.5;
+  r = -m_xboxController->GetRightJoystickX();
   /* comment for right stick control
   if (m_xboxController->GetLeftBumper()) {
     r  = 0.6;

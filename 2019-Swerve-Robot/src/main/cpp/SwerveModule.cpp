@@ -5,7 +5,7 @@ SwerveModule::SwerveModule(int driveMotorId, int pivotMotorId, int pivotSensorId
     m_driveMotor(driveMotorId, rev::CANSparkMax::MotorType::kBrushless),
     m_pivotMotor(pivotMotorId),
     m_pivotSensor(pivotSensorId),
-    m_pivotController(2.2, 0.0, 0.0, &m_pivotSensor, &m_pivotMotor),
+    m_pivotController(1.1, 0.0, 0.1, &m_pivotSensor, &m_pivotMotor),
     m_zeroAngle(zeroAngle)
 {
     m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);

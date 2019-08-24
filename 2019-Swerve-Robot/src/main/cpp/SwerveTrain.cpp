@@ -9,6 +9,7 @@
 #include "Robot.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <iostream>
 
 SwerveTrain::SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m) :
   Subsystem("ExampleSubsystem")
@@ -62,7 +63,7 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
 
   frc::SmartDashboard::PutNumber("Turn amount", angSpeed);
 
-  if (xSpeed * xSpeed + ySpeed * ySpeed + angSpeed * angSpeed >= 0.15) {
+  if (xSpeed * xSpeed + ySpeed * ySpeed + angSpeed * angSpeed >= 0.10) {
     // Rear right, front right, front left, rear left
     std::array< std::pair< double, double >, moduleCount > targets;
 
