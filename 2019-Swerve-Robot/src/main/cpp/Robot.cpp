@@ -37,7 +37,7 @@ void Robot::RobotInit() {
   // 4             | 8           | 3
 
 #define ENTRY(X) std::tuple< int, int, int, double >{ X + 1, X + 5, X, offsets[X] }
-  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 138.0, 4.5, 203.0, 139.0 };
+  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 28.0, 2.5, 27.0, 139.0 };
   swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
     ENTRY(0),
     ENTRY(1),
@@ -111,15 +111,19 @@ void Robot::TeleopPeriodic() {
   double x = m_xboxController->GetLeftJoystickX();
   double y = -m_xboxController->GetLeftJoystickY();
   double r = 0;
+  //comment for bumper control
+  r = -m_xboxController->GetRightJoystickX() / 1.5;
+  /* comment for right stick control
   if (m_xboxController->GetLeftBumper()) {
-    r  = 0.4;
+    r  = 0.6;
   }
   else if (m_xboxController->GetRightBumper()) {
-    r = -0.4;
+    r = -0.;
   }
   else {
     r = 0;
   }
+  */
 
   swerveTrain->drive(x, y, r);
 

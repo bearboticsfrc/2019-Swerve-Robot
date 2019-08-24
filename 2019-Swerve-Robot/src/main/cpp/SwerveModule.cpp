@@ -5,7 +5,7 @@ SwerveModule::SwerveModule(int driveMotorId, int pivotMotorId, int pivotSensorId
     m_driveMotor(driveMotorId, rev::CANSparkMax::MotorType::kBrushless),
     m_pivotMotor(pivotMotorId),
     m_pivotSensor(pivotSensorId),
-    m_pivotController(2.0, 0.0, 0.0, &m_pivotSensor, &m_pivotMotor),
+    m_pivotController(2.2, 0.0, 0.0, &m_pivotSensor, &m_pivotMotor),
     m_zeroAngle(zeroAngle)
 {
     m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -13,7 +13,7 @@ SwerveModule::SwerveModule(int driveMotorId, int pivotMotorId, int pivotSensorId
     m_pivotController.SetInputRange(0.0, 5.0);
     m_pivotController.SetOutputRange(-1.0, 1.0);
     m_pivotController.SetEnabled(true);
-    //m_pivotMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    m_pivotMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
     m_pivotController.SetSetpoint(m_zeroAngle / 360.0 * 5.0);
 }
 
