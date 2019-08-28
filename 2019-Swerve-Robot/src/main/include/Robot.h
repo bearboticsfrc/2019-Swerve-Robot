@@ -33,6 +33,7 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
+  frc::SendableChooser< std::string > testModeChooser;
 
 public:
   static std::unique_ptr< SwerveTrain > swerveTrain;
