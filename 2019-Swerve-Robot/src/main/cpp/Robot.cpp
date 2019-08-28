@@ -14,6 +14,7 @@
 #include <string>
 #include <math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/commands/Scheduler.h>
 
 std::unique_ptr< SwerveTrain > Robot::swerveTrain{};
 
@@ -24,6 +25,8 @@ std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
 
 std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
+
+std::unique_ptr< ManualDrive > Robot::manualDrive{};
 
 void Robot::RobotInit() {
   // Swerve Module | Pivot Motor | Drive Motor
@@ -50,6 +53,10 @@ void Robot::RobotInit() {
   //hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
   //CargoManipulator(int neoPort, int motorPort, int limitPort);
   //cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
+
+  manualDrive = std::make_unique< ManualDrive >();
+
+  swerveTrain->SetDefaultCommand(manualDrive.get());
 
   frc::SmartDashboard::init();
 }
@@ -78,21 +85,13 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+  frc::Scheduler::GetInstance()->RemoveAll();
+
   m_gyro->SetYaw(90.0);
-  }
+}
 
 void Robot::TeleopPeriodic() {
-  //For Joystick control
-  //double x =  m_joystick->GetX();
-  //double y = -m_joystick->GetY();
-  //double r = -m_joystick->GetZ();
-
-  //For Xbox Control
-  double x = m_xboxController->GetLeftJoystickX();
-  double y = -m_xboxController->GetLeftJoystickY();
-  double r = -m_xboxController->GetRightJoystickX();
-
-  swerveTrain->drive(x, y, r);
+  frc::Scheduler::GetInstance()->Run();
 }
 
 void Robot::TestPeriodic() {}
