@@ -31,6 +31,11 @@ void Robot::RobotInit() {
   testModeChooser.AddOption("Disable Mode", "disable");
   frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
 
+  testModeChooser.AddOption("Enable Mode", "enable");
+  testModeChooser.AddOption("Test Mode", "test");
+  testModeChooser.AddOption("Disable Mode", "disable");
+  frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
+
   // Swerve Module | Pivot Motor | Drive Motor
   // 1             | 5           | 0
   // 2             | 6           | 1
