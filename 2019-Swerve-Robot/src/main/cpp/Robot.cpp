@@ -26,10 +26,6 @@ std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
 std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
 
 void Robot::RobotInit() {
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-
   // Swerve Module | Pivot Motor | Drive Motor
   // 1             | 5           | 0
   // 2             | 6           | 1
@@ -37,6 +33,8 @@ void Robot::RobotInit() {
   // 4             | 8           | 3
 
 #define ENTRY(X) std::tuple< int, int, int, double >{ X + 1, X + 5, X, offsets[X] }
+
+  // Initializes each swerve module based on the given ID and offset
   constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 28.0, 2.5, 27.0, 139.0 };
   swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
     ENTRY(0),
@@ -54,10 +52,10 @@ void Robot::RobotInit() {
   //cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
 
   frc::SmartDashboard::init();
-
 }
 
 void Robot::RobotPeriodic() {
+  // Prints diagnostic information for each swerve module
   for (int i = 0; i < SwerveTrain::moduleCount; ++i) {
     double lastAngle = frc::SmartDashboard::GetNumber("Swerve Angle " + std::to_string(i), swerveTrain->getModule(i).getAngle());
     frc::SmartDashboard::PutNumber("Swerve Raw Angle " + std::to_string(i), swerveTrain->getModule(i).getRawAngle());
@@ -72,29 +70,10 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-  /*
-  m_autoSelected = m_chooser.GetSelected();
-  // m_autoSelected = SmartDashboard::GetString(
-  //     "Auto Selector", kAutoNameDefault);
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
-
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
-  */
  Robot::TeleopInit();
 }
 
 void Robot::AutonomousPeriodic() {
-  /*
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
-  */
  Robot::TeleopPeriodic();
 }
 
@@ -107,37 +86,13 @@ void Robot::TeleopPeriodic() {
   //double x =  m_joystick->GetX();
   //double y = -m_joystick->GetY();
   //double r = -m_joystick->GetZ();
+
   //For Xbox Control
   double x = m_xboxController->GetLeftJoystickX();
   double y = -m_xboxController->GetLeftJoystickY();
-  double r = 0;
-  //comment for bumper control
-  r = -m_xboxController->GetRightJoystickX();
-  /* comment for right stick control
-  if (m_xboxController->GetLeftBumper()) {
-    r  = 0.6;
-  }
-  else if (m_xboxController->GetRightBumper()) {
-    r = -0.;
-  }
-  else {
-    r = 0;
-  }
-  */
+  double r = -m_xboxController->GetRightJoystickX();
 
   swerveTrain->drive(x, y, r);
-
-  
-  /* for (int i = 0; i < 4; ++i) {
-    targets[i].second *= 360.0 / (2.0 * M_PI);
-  }*/
-
-  /*std::cout << std::setprecision(3);
-  std::cout << std::setw(5) << targets[2].first << ",   " << std::setw(5) << targets[2].second
-  << "     "  << std::setw(5) << targets[1].first << ",   " << std::setw(5) << targets[1].second << "\n\n";
-
-  std::cout << std::setw(5) << targets[3].first << ",   " << std::setw(5) << targets[3].second
-  << "     "  << std::setw(5) << targets[0].first << ",   " << std::setw(5) << targets[0].second << "\n\n\n" << std::endl;*/
 }
 
 void Robot::TestPeriodic() {}

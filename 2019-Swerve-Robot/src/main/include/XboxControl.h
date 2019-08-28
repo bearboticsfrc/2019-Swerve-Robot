@@ -15,8 +15,10 @@ class XboxControl : public frc::Subsystem {
   // for methods that implement subsystem capabilities
   frc::XboxController controller;
  public:
-  XboxControl(int port);
   void InitDefaultCommand() override;
+  
+  XboxControl(int port);
+
   double GetLeftJoystickX();
   double GetLeftJoystickY();
   double GetRightJoystickX();

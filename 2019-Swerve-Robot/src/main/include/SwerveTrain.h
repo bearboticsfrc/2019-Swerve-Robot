@@ -19,10 +19,11 @@ private:
   // for methods that implement subsystem capabilities
 
 public:
+  void InitDefaultCommand() override;
+  
   static const std::size_t moduleCount = 4;
 
   SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m);
-  void InitDefaultCommand() override;
 
   void drive(double xSpeed, double ySpeed, double angSpeed);
 

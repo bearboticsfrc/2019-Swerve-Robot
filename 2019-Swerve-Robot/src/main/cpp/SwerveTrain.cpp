@@ -19,13 +19,15 @@ SwerveTrain::SwerveTrain(std::array< std::tuple< int, int, int, double >, module
   }
 }
 
-// Returns a magnitude/angle
+// Given a target robot speed in the x and y axis, and a target angular speed
+// calculates the target magnitude and angle of the module with ID corner
 std::pair< double, double > calcModuleTarget(double xSpeed, double ySpeed, double angSpeed, double robotAngle[3], int corner) {
   std::pair< double, double > target;
 
   target.first  = xSpeed * std::cos(-robotAngle[0] * M_PI / 180.0) - ySpeed * sin(-robotAngle[0] * M_PI / 180.0);
   target.second = xSpeed * std::sin(-robotAngle[0] * M_PI / 180.0) + ySpeed * cos(-robotAngle[0] * M_PI/ 180.0);
   
+  // Direction of twist vector depends on which module is being used
   target.first  += angSpeed * std::cos(((2 * corner) + 1) * M_PI_4);
   target.second += angSpeed * std::sin(((2 * corner) + 1) * M_PI_4);
 
@@ -85,7 +87,6 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
     for (int i = 0; i < 4; ++i) {
       frc::SmartDashboard::PutNumber("Swerve Target " + std::to_string(i), targets[i].second);
       modules[i]->Set(targets[i].first / 3.0, targets[i].second);
-      //m_sparks[i]->Set(targets[i].first);
     }
   }
   else {
