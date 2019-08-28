@@ -30,6 +30,11 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+  testModeChooser.AddOption("Enable Mode", "enable");
+  testModeChooser.AddOption("Test Mode", "test");
+  testModeChooser.AddOption("Disable Mode", "disable");
+  frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
+
   // Swerve Module | Pivot Motor | Drive Motor
   // 1             | 5           | 0
   // 2             | 6           | 1
@@ -100,7 +105,31 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {
   m_gyro->SetYaw(90.0);
+
+  if (testModeChooser.GetSelected() == "enable") {
+    std::cout << "Starting robot in ENABLEd mode\n";
+    swerveTrain->setMode(OperationMode::Enable);
+    hatchManipulator->setMode(OperationMode::Enable);
+    cargoManipulator->setMode(OperationMode::Enable);
   }
+  else if (testModeChooser.GetSelected() == "test") {
+    std::cout << "Starting robot in TEST mode\n";
+    swerveTrain->setMode(OperationMode::Test);
+    hatchManipulator->setMode(OperationMode::Test);
+    cargoManipulator->setMode(OperationMode::Test);
+  }
+  else {
+    if (testModeChooser.GetSelected() == "disable") {
+      std::cout << "Starting robot in DISABLEd mode\n";
+    }
+    else {
+      std::cout << "Invalid test option " << testModeChooser.GetSelected() << '\n';
+    }
+    swerveTrain->setMode(OperationMode::Disable);
+    hatchManipulator->setMode(OperationMode::Disable);
+    cargoManipulator->setMode(OperationMode::Disable);
+  }
+}
 
 void Robot::TeleopPeriodic() {
   //For Joystick control

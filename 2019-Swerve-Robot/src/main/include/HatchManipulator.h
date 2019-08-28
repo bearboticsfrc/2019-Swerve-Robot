@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "TestMode.h"
+
 #include <frc/commands/Subsystem.h>
 #include <frc/Solenoid.h>
 #include <ctre/Phoenix.h>
@@ -20,6 +22,8 @@ class HatchManipulator : public frc::Subsystem {
 
   WPI_VictorSPX driveMotor;
 
+  OperationMode mode = OperationMode::Disable;
+
  public:
   HatchManipulator(int extendPort, int retractPort, int motorPort);
   void InitDefaultCommand() override;
@@ -27,4 +31,6 @@ class HatchManipulator : public frc::Subsystem {
   void setExtended(bool extended);
 
   void setMotorSpeed(double speed);
+
+  void setMode(OperationMode m);
 };

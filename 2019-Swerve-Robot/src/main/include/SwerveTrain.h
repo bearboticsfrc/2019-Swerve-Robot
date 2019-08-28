@@ -8,6 +8,7 @@
 #pragma once
 
 #include "SwerveModule.h"
+#include "TestMode.h"
 
 #include <frc/commands/Subsystem.h>
 #include <tuple>
@@ -19,7 +20,8 @@ private:
   // for methods that implement subsystem capabilities
 
 public:
-  static const std::size_t moduleCount = 4;
+  static constexpr const std::size_t moduleCount = 4;
+  static constexpr const double maxSpeed = 0.3;
 
   SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m);
   void InitDefaultCommand() override;
@@ -28,6 +30,10 @@ public:
 
   const SwerveModule &getModule(std::size_t idx);
 
+  void setMode(OperationMode m);
+
 private:
+  OperationMode mode = OperationMode::Disable;
+
   std::array< std::unique_ptr< SwerveModule >, moduleCount > modules;
 };
