@@ -33,6 +33,8 @@ public:
 
   void setMode(OperationMode m);
 
+  void doLogging();
+
 private:
   OperationMode mode = OperationMode::Disable;
 
