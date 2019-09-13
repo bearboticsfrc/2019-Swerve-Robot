@@ -44,26 +44,37 @@ std::pair< double, double > calcModuleTarget(double xSpeed, double ySpeed, doubl
   return target;
 }
 
+// Puts x in the interval [0, range)
+double wrap(double x, double range) {
+  double temp = std::fmod(x, range);
+  return (temp < 0) ? range + x : x;
+}
+
+// Returns the signed difference a - b with the smallest magnitude
+// e.g. will return -30 instead of 320
+double angleDiff(double a, double b) {
+  double temp = a - b + 180.0;
+  wrap(temp, 360.0);
+  return temp - 180.0;
+}
+
 void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
   double ypr[3];
   Robot::m_gyro->GetYawPitchRoll(ypr);
 
-  ypr[0] -= 360.0 * std::floor(ypr[0] / 360.0);
+  ypr[0] = wrap(ypr[0], 360.0);
 
   frc::SmartDashboard::PutNumber("Current Gyro", ypr[0]);
 
   static double targetGyro = 90.0;
 
-  targetGyro -= 360.0 * std::floor(targetGyro / 360.0);
+  targetGyro = wrap(targetGyro, 360.0);
 
   targetGyro += angSpeed;
 
   frc::SmartDashboard::PutNumber("Target Gyro", targetGyro);
 
-  double temp = (targetGyro - ypr[0] + 540.0);
-  temp -= 360.0 * std::floor(temp / 360.0);
-  temp -= 180.0;
-  temp /= 32.0;
+  double temp = angleDiff(targetGyro, ypr[0]) / 32.0;
 
   //r += temp;
 
