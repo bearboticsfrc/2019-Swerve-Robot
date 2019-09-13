@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "HatchManipulator.h"
+#include "subsystems/HatchManipulator.h"
 
 void HatchManipulator::setMode(OperationMode m) {
   mode = m;

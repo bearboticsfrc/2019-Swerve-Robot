@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "ManualHatchManip.h"
+#include "commands/ManualHatchManip.h"
 #include "Robot.h"
 
 ManualHatchManip::ManualHatchManip() :

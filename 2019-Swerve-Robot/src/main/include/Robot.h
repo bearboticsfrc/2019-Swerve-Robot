@@ -18,11 +18,11 @@
 
 #include <rev/CANSparkMax.h>
 
-#include "HatchManipulator.h"
-#include "CargoManipulator.h"
+#include "subsystems/SwerveTrain.h"
+#include "subsystems/Elevator.h"
+#include "subsystems/HatchManipulator.h"
+#include "subsystems/CargoManipulator.h"
 #include "XboxControl.h"
-#include "SwerveTrain.h"
-#include "Elevator.h"
 
 #include "commands/ManualDrive.h"
 

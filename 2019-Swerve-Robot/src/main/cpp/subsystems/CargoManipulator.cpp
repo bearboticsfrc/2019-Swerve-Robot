@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "CargoManipulator.h"
+#include "subsystems/CargoManipulator.h"
 
 void CargoManipulator::setMode(OperationMode m) {
   mode = m;
@@ -21,7 +21,7 @@ CargoManipulator::CargoManipulator(int neoID, int motorPort, int limitPort) :
      setOutMotorSpeed(0.0);
   }
 
-void CargoManipulator::InitDefaultCommand() {
+void CargoManipulator::InitDefaultCommand(){
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
