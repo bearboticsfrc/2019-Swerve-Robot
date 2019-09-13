@@ -14,6 +14,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/Joystick.h>
+#include <frc/DigitalInput.h>
 
 #include <rev/CANSparkMax.h>
 
@@ -44,6 +45,8 @@ public:
   static std::unique_ptr< frc::Joystick > m_joystick;
 
   static std::unique_ptr< XboxControl > m_xboxController;
+
+  static std::unique_ptr< frc::DigitalInput > disableInput;
 
   /* ----- Subsystems ----- */
   static std::unique_ptr< SwerveTrain > swerveTrain;

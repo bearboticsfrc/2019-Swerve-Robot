@@ -19,6 +19,7 @@
 std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 std::unique_ptr< XboxControl > Robot::m_xboxController{};
 std::unique_ptr< PigeonIMU > Robot::m_gyro{};
+std::unique_ptr< frc::DigitalInput > Robot::disableInput{};
 
 /* ----- Subsystems ----- */
 std::unique_ptr< SwerveTrain > Robot::swerveTrain{};
@@ -100,6 +101,14 @@ void Robot::TeleopInit() {
   frc::Scheduler::GetInstance()->RemoveAll();
 
   m_gyro->SetYaw(90.0);
+
+  if (!Robot::disableInput->Get()) {
+    swerveTrain->setMode(OperationMode::Disable);
+    elevator->setMode(OperationMode::Disable);
+    hatchManipulator->setMode(OperationMode::Disable);
+    cargoManipulator->setMode(OperationMode::Disable);
+    return;
+  }
 
   if (testModeChooser.GetSelected() == "enable") {
     std::cout << "Starting robot in ENABLEd mode\n";
