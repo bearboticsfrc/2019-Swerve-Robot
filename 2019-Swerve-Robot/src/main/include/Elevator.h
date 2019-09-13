@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "TestMode.h"
+
 #include <frc/commands/Subsystem.h>
 #include <rev/CANSparkMax.h>
 
@@ -17,10 +19,14 @@ public:
   Elevator(int mainMotorId, int auxMotorId);
   void InitDefaultCommand() override;
 
+  void setMode(OperationMode m);
+
 private:
   void setSetpoint(double point);
 
   rev::CANSparkMax mainMotor, auxMotor;
 
   rev::CANPIDController controller;
+
+  OperationMode mode = OperationMode::Disable;
 };

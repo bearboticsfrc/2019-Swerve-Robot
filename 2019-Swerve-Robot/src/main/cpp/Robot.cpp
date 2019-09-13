@@ -104,12 +104,14 @@ void Robot::TeleopInit() {
   if (testModeChooser.GetSelected() == "enable") {
     std::cout << "Starting robot in ENABLEd mode\n";
     swerveTrain->setMode(OperationMode::Enable);
+    elevator->setMode(OperationMode::Enable);
     hatchManipulator->setMode(OperationMode::Enable);
     cargoManipulator->setMode(OperationMode::Enable);
   }
   else if (testModeChooser.GetSelected() == "test") {
     std::cout << "Starting robot in TEST mode\n";
     swerveTrain->setMode(OperationMode::Test);
+    elevator->setMode(OperationMode::Test);
     hatchManipulator->setMode(OperationMode::Test);
     cargoManipulator->setMode(OperationMode::Test);
   }
@@ -121,6 +123,7 @@ void Robot::TeleopInit() {
       std::cout << "Invalid test option " << testModeChooser.GetSelected() << '\n';
     }
     swerveTrain->setMode(OperationMode::Disable);
+    elevator->setMode(OperationMode::Disable);
     hatchManipulator->setMode(OperationMode::Disable);
     cargoManipulator->setMode(OperationMode::Disable);
   }

@@ -10,6 +10,10 @@
 static const double maxPower = 0.1;
 static const double minPower = -0.1;
 
+void Elevator::setMode(OperationMode m) {
+  mode = m;
+}
+
 Elevator::Elevator(int mainMotorId, int auxMotorId) :
   mainMotor(mainMotorId, rev::CANSparkMax::MotorType::kBrushless),
   auxMotor(auxMotorId, rev::CANSparkMax::MotorType::kBrushless),
@@ -30,6 +34,17 @@ Elevator::Elevator(int mainMotorId, int auxMotorId) :
 }
 
 void Elevator::setSetpoint(double point) {
+  switch (mode) {
+  case OperationMode::Disable:
+    controller.SetOutputRange(0.0, 0.0);
+    break;
+  case OperationMode::Test:
+    controller.SetOutputRange(-0.1, 0.1);
+    break;
+  case OperationMode::Enable:
+    controller.SetOutputRange(minPower, maxPower);
+    break;
+  }
   controller.SetReference(point, rev::ControlType::kPosition);
 }
 
