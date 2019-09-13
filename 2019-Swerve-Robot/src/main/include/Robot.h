@@ -22,6 +22,8 @@
 #include "XboxControl.h"
 #include "SwerveTrain.h"
 
+#include "commands/ManualDrive.h"
+
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -47,4 +49,6 @@ public:
   static std::unique_ptr< CargoManipulator > cargoManipulator;
   
   static std::unique_ptr< XboxControl > m_xboxController;
+
+  static std::unique_ptr< ManualDrive > manualDrive;
 };

@@ -24,6 +24,7 @@ HatchManipulator::HatchManipulator(int extendPort, int retractPort, int motorPor
 void HatchManipulator::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
+  
 }
 
 void HatchManipulator::setExtended(bool extended) {
