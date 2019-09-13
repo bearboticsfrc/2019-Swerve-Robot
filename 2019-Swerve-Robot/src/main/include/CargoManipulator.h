@@ -7,19 +7,24 @@
 
 #pragma once
 
+#include "TestMode.h"
+
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
 #include <rev/CANSparkMax.h>
 #include <ctre/Phoenix.h>
-class CargoManipulator : public frc::Subsystem {
- private:
- rev::CANSparkMax neoMotor;
- WPI_VictorSPX otherMotor;
- frc::DigitalInput limitSwitch;
 
- public:
+class CargoManipulator : public frc::Subsystem {
+private:
+  rev::CANSparkMax neoMotor;
+  WPI_VictorSPX otherMotor;
+  frc::DigitalInput limitSwitch;
+  OperationMode mode = OperationMode::Disable;
+
+public:
   CargoManipulator(int neoID, int motorPort, int limitPort);
   void InitDefaultCommand() override;
   void setOutMotorSpeed(double speed);
   void extendManipulator(bool extend);
+  void setMode(OperationMode m);
 };

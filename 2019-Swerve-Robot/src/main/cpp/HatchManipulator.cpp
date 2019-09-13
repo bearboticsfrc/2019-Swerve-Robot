@@ -7,6 +7,10 @@
 
 #include "HatchManipulator.h"
 
+void HatchManipulator::setMode(OperationMode m) {
+  mode = m;
+}
+
 HatchManipulator::HatchManipulator(int extendPort, int retractPort, int motorPort) :
   Subsystem("HatchManipulator"),
   extendSolenoid(extendPort),
@@ -24,12 +28,30 @@ void HatchManipulator::InitDefaultCommand() {
 }
 
 void HatchManipulator::setExtended(bool extended) {
-  extendSolenoid.Set(extended);
-  retractSolenoid.Set(!extended);
+  if (mode == OperationMode::Disable) {
+    extendSolenoid.Set(false);
+    retractSolenoid.Set(false);
+  }
+  else {
+    extendSolenoid.Set(extended);
+    retractSolenoid.Set(!extended);
+  }
 }
 
 void HatchManipulator::setMotorSpeed(double speed) {
-  driveMotor.Set(speed);
+  double multiplier = 0.0;
+  switch (mode) {
+  case OperationMode::Disable:
+    multiplier = 0.0;
+    break;
+  case OperationMode::Test:
+    multiplier = 0.1;
+    break;
+  case OperationMode::Enable:
+    multiplier = 1.0;
+    break;
+  }
+  driveMotor.Set(speed * multiplier);
 }
 
 // Put methods for controlling this subsystem

@@ -11,6 +11,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 
+void SwerveTrain::setMode(OperationMode m) {
+  mode = m;
+}
+
 SwerveTrain::SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m) :
   Subsystem("ExampleSubsystem")
 {
@@ -65,7 +69,7 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
 
   frc::SmartDashboard::PutNumber("Turn amount", angSpeed);
 
-  if (xSpeed * xSpeed + ySpeed * ySpeed + angSpeed * angSpeed >= 0.10) {
+  if (xSpeed * xSpeed + ySpeed * ySpeed + angSpeed * angSpeed >= 0.10 && mode != OperationMode::Disable) {
     // Rear right, front right, front left, rear left
     std::array< std::pair< double, double >, moduleCount > targets;
 
@@ -85,8 +89,10 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
     }
 
     for (int i = 0; i < 4; ++i) {
+      double multiplier = ((mode == OperationMode::Test) ? 0.1 : 1.0);
       frc::SmartDashboard::PutNumber("Swerve Target " + std::to_string(i), targets[i].second);
-      modules[i]->Set(targets[i].first / 3.0, targets[i].second);
+      modules[i]->Set(targets[i].first * maxSpeed * multiplier, targets[i].second);
+      //m_sparks[i]->Set(targets[i].first);
     }
   }
   else {

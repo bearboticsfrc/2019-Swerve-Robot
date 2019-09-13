@@ -7,6 +7,10 @@
 
 #include "CargoManipulator.h"
 
+void CargoManipulator::setMode(OperationMode m) {
+  mode = m;
+}
+
 CargoManipulator::CargoManipulator(int neoID, int motorPort, int limitPort) :
   Subsystem("CargoManipulator"),
   neoMotor(neoID, rev::CANSparkMax::MotorType::kBrushless),
