@@ -16,16 +16,17 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/commands/Scheduler.h>
 
-std::unique_ptr< SwerveTrain > Robot::swerveTrain{};
-
 std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 std::unique_ptr< XboxControl > Robot::m_xboxController{};
 std::unique_ptr< PigeonIMU > Robot::m_gyro{};
 
+/* ----- Subsystems ----- */
+std::unique_ptr< SwerveTrain > Robot::swerveTrain{};
+std::unique_ptr< Elevator > Robot::elevator{};
 std::unique_ptr< HatchManipulator > Robot::hatchManipulator{};
-
 std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
 
+/* ------ Commands ------ */
 std::unique_ptr< ManualDrive > Robot::manualDrive{};
 
 void Robot::RobotInit() {
@@ -49,6 +50,7 @@ void Robot::RobotInit() {
   m_joystick = std::make_unique< frc::Joystick >(0);
   m_xboxController = std::make_unique< XboxControl >(1);
   m_gyro = std::make_unique< PigeonIMU >(10);
+
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
   //hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
   //CargoManipulator(int neoPort, int motorPort, int limitPort);

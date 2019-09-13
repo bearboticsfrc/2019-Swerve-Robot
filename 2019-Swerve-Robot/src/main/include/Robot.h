@@ -21,6 +21,7 @@
 #include "CargoManipulator.h"
 #include "XboxControl.h"
 #include "SwerveTrain.h"
+#include "Elevator.h"
 
 #include "commands/ManualDrive.h"
 
@@ -37,17 +38,18 @@ class Robot : public frc::TimedRobot {
  private:
 
 public:
-  static std::unique_ptr< SwerveTrain > swerveTrain;
-
   static std::unique_ptr< PigeonIMU > m_gyro;
 
   static std::unique_ptr< frc::Joystick > m_joystick;
-  
-  static std::unique_ptr< HatchManipulator > hatchManipulator;
 
-  static std::unique_ptr< CargoManipulator > cargoManipulator;
-  
   static std::unique_ptr< XboxControl > m_xboxController;
 
+  /* ----- Subsystems ----- */
+  static std::unique_ptr< SwerveTrain > swerveTrain;
+  static std::unique_ptr< Elevator > elevator;
+  static std::unique_ptr< HatchManipulator > hatchManipulator;
+  static std::unique_ptr< CargoManipulator > cargoManipulator;
+
+  /* ------ Commands ------ */
   static std::unique_ptr< ManualDrive > manualDrive;
 };
