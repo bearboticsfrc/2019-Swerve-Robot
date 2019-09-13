@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
+#include "Logger.h"
 
 #include <string>
 #include <iostream>
@@ -111,14 +112,14 @@ void Robot::TeleopInit() {
   }
 
   if (testModeChooser.GetSelected() == "enable") {
-    std::cout << "Starting robot in ENABLEd mode\n";
+    logger::log("Starting robot in ENABLEd mode", logger::Level::Info);
     swerveTrain->setMode(OperationMode::Enable);
     elevator->setMode(OperationMode::Enable);
     hatchManipulator->setMode(OperationMode::Enable);
     cargoManipulator->setMode(OperationMode::Enable);
   }
   else if (testModeChooser.GetSelected() == "test") {
-    std::cout << "Starting robot in TEST mode\n";
+    logger::log("Starting robot in TEST mode", logger::Level::Info);
     swerveTrain->setMode(OperationMode::Test);
     elevator->setMode(OperationMode::Test);
     hatchManipulator->setMode(OperationMode::Test);
@@ -126,11 +127,12 @@ void Robot::TeleopInit() {
   }
   else {
     if (testModeChooser.GetSelected() == "disable") {
-      std::cout << "Starting robot in DISABLEd mode\n";
+      logger::log("Starting robot in DISABLEd mode", logger::Level::Info);
     }
     else {
-      std::cout << "Invalid test option " << testModeChooser.GetSelected() << '\n';
+      logger::log("Invalid test option " + testModeChooser.GetSelected(), logger::Level::Error);
     }
+
     swerveTrain->setMode(OperationMode::Disable);
     elevator->setMode(OperationMode::Disable);
     hatchManipulator->setMode(OperationMode::Disable);

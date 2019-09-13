@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/Elevator.h"
+#include "Logger.h"
 
 static const double maxPower = 0.1;
 static const double minPower = -0.1;
@@ -45,6 +46,7 @@ void Elevator::setSetpoint(double point) {
     controller.SetOutputRange(minPower, maxPower);
     break;
   }
+  logger::log("Set elevator setpoint to " + std::to_string(point), logger::Level::Info);
   controller.SetReference(point, rev::ControlType::kPosition);
 }
 

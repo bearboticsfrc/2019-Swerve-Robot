@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/HatchManipulator.h"
+#include "Logger.h"
 
 void HatchManipulator::setMode(OperationMode m) {
   mode = m;
@@ -29,10 +30,12 @@ void HatchManipulator::InitDefaultCommand() {
 
 void HatchManipulator::setExtended(bool extended) {
   if (mode == OperationMode::Disable) {
+    logger::log("Tried to set hatch manipulator extendedness but disabled", logger::Level::Debug);
     extendSolenoid.Set(false);
     retractSolenoid.Set(false);
   }
   else {
+    logger::log("Set hatch manipulator extendedness to " + std::to_string(extended), logger::Level::Info);
     extendSolenoid.Set(extended);
     retractSolenoid.Set(!extended);
   }
@@ -51,6 +54,7 @@ void HatchManipulator::setMotorSpeed(double speed) {
     multiplier = 1.0;
     break;
   }
+  logger::log("Set hatch manipulator motor speed to " + std::to_string(speed), logger::Level::Info);
   driveMotor.Set(speed * multiplier);
 }
 

@@ -35,6 +35,6 @@ namespace logger {
 
         double time = frc::GetTime();
 
-        std::cout << std::setprecision(3) << std::setw(5) << time << ": " << str;
+        std::cout << std::setprecision(3) << std::setw(5) << time << ": " << str << '\n';
     }
 };
