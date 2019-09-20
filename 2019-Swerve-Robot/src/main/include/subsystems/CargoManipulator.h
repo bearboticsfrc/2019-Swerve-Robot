@@ -10,21 +10,29 @@
 #include "TestMode.h"
 
 #include <frc/commands/Subsystem.h>
-#include <frc/DigitalInput.h>
-#include <rev/CANSparkMax.h>
+#include <frc/AnalogInput.h>
+#include <frc/PIDController.h>
 #include <ctre/Phoenix.h>
 
 class CargoManipulator : public frc::Subsystem {
 private:
-  rev::CANSparkMax neoMotor;
-  WPI_VictorSPX otherMotor;
-  frc::DigitalInput limitSwitch;
+  WPI_VictorSPX intakeMotor;
+  WPI_VictorSPX angleMotor;
+
+  frc::AnalogInput angleSensor;
+
+  frc::PIDController angleController;
+
   OperationMode mode = OperationMode::Disable;
 
 public:
-  CargoManipulator(int neoID, int motorPort, int limitPort);
+  CargoManipulator(int intakeMotorPort, int angleMotorPort, int angleSensorPort);
   void InitDefaultCommand() override;
-  void setOutMotorSpeed(double speed);
-  void extendManipulator(bool extend);
+
   void setMode(OperationMode m);
+
+  // +1.0 is maximum speed outwards, -1.0 is maximum speed inwards
+  void setIntakeSpeed(double speed);
+
+  void extendManipulator(bool extend);
 };
