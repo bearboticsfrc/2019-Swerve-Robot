@@ -48,15 +48,17 @@ void Robot::RobotInit() {
   // 3             | 7           | 2
   // 4             | 8           | 3
 
-#define ENTRY(X) std::tuple< int, int, int, double >{ X + 1, X + 5, X, offsets[X] }
+// Neo port, swivel motor port, swivel sensor port, offset
+#define ENTRY(N, SM, SS, O) std::tuple< int, int, int, double >{ N, SM, SS, offsets[O] }
 
   // Initializes each swerve module based on the given ID and offset
+  // Don't you love electrical's wiring assignment?
   constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 28.0, 2.5, 27.0, 139.0 };
   swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
-    ENTRY(0),
-    ENTRY(1),
-    ENTRY(2),
-    ENTRY(3)
+    ENTRY(14,  8,  0,  0),
+    ENTRY(12, 11,  3,  1),
+    ENTRY( 3,  5,  2,  2),
+    ENTRY(15,  9,  1,  3)
   });
 
   m_joystick = std::make_unique< frc::Joystick >(0);
@@ -87,7 +89,6 @@ void Robot::RobotPeriodic() {
 
     frc::SmartDashboard::PutNumber("Swerve Speed " + std::to_string(i), temp);
   }
-
 }
 
 void Robot::AutonomousInit() {
