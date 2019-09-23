@@ -32,28 +32,24 @@ std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
 std::unique_ptr< ManualDrive > Robot::manualDrive{};
 
 void Robot::RobotInit() {
+  frc::SmartDashboard::init(); 
   testModeChooser.AddOption("Enable Mode", "enable");
   testModeChooser.AddOption("Test Mode", "test");
-  testModeChooser.AddOption("Disable Mode", "disable");
-  frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
-
-  testModeChooser.AddOption("Enable Mode", "enable");
-  testModeChooser.AddOption("Test Mode", "test");
-  testModeChooser.AddOption("Disable Mode", "disable");
+  testModeChooser.SetDefaultOption("Disable Mode", "disable");
   frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
 
   // Swerve Module | Pivot Motor | Drive Motor
-  // 1             | 5           | 0
-  // 2             | 6           | 1
-  // 3             | 7           | 2
-  // 4             | 8           | 3
+  // 1             | 8           | 14
+  // 2             | 11          | 12
+  // 3             | 5           | 3
+  // 4             | 9           | 15
 
 // Neo port, swivel motor port, swivel sensor port, offset
 #define ENTRY(N, SM, SS, O) std::tuple< int, int, int, double >{ N, SM, SS, offsets[O] }
 
   // Initializes each swerve module based on the given ID and offset
   // Don't you love electrical's wiring assignment?
-  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 28.0, 2.5, 27.0, 139.0 };
+  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 2.0, 54.0, 272.0, 203.0 };
   swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
     ENTRY(14,  8,  0,  0),
     ENTRY(12, 11,  3,  1),
@@ -74,7 +70,8 @@ void Robot::RobotInit() {
 
   swerveTrain->SetDefaultCommand(manualDrive.get());
 
-  frc::SmartDashboard::init();
+  disableInput = std::make_unique< frc::DigitalInput >(9);
+
 }
 
 void Robot::RobotPeriodic() {
@@ -102,29 +99,35 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
   frc::Scheduler::GetInstance()->RemoveAll();
 
+  std::cout << "Starting teleop init\n";
+
   m_gyro->SetYaw(90.0);
 
   if (!Robot::disableInput->Get()) {
     swerveTrain->setMode(OperationMode::Disable);
-    elevator->setMode(OperationMode::Disable);
-    hatchManipulator->setMode(OperationMode::Disable);
-    cargoManipulator->setMode(OperationMode::Disable);
+    //elevator->setMode(OperationMode::Disable);
+    //hatchManipulator->setMode(OperationMode::Disable);
+    //cargoManipulator->setMode(OperationMode::Disable);
     return;
   }
 
   if (testModeChooser.GetSelected() == "enable") {
     logger::log("Starting robot in ENABLEd mode", logger::Level::Info);
     swerveTrain->setMode(OperationMode::Enable);
-    elevator->setMode(OperationMode::Enable);
-    hatchManipulator->setMode(OperationMode::Enable);
-    cargoManipulator->setMode(OperationMode::Enable);
+    //elevator->setMode(OperationMode::Enable);
+    //hatchManipulator->setMode(OperationMode::Enable);
+    //cargoManipulator->setMode(OperationMode::Enable);
+    
+    manualDrive->Start();
   }
   else if (testModeChooser.GetSelected() == "test") {
     logger::log("Starting robot in TEST mode", logger::Level::Info);
     swerveTrain->setMode(OperationMode::Test);
-    elevator->setMode(OperationMode::Test);
-    hatchManipulator->setMode(OperationMode::Test);
-    cargoManipulator->setMode(OperationMode::Test);
+    //elevator->setMode(OperationMode::Test);
+    //hatchManipulator->setMode(OperationMode::Test);
+    //cargoManipulator->setMode(OperationMode::Test);
+
+    manualDrive->Start();
   }
   else {
     if (testModeChooser.GetSelected() == "disable") {
@@ -135,9 +138,9 @@ void Robot::TeleopInit() {
     }
 
     swerveTrain->setMode(OperationMode::Disable);
-    elevator->setMode(OperationMode::Disable);
-    hatchManipulator->setMode(OperationMode::Disable);
-    cargoManipulator->setMode(OperationMode::Disable);
+    //elevator->setMode(OperationMode::Disable);
+    //hatchManipulator->setMode(OperationMode::Disable);
+    //cargoManipulator->setMode(OperationMode::Disable);
   }
 }
 
