@@ -57,6 +57,18 @@ void Robot::RobotInit() {
 
   disableInput = std::make_unique< frc::DigitalInput >(9);
 
+  if (!swerveTrain) {
+    logger::log("Swervetrain subsystem has not been initialized.", logger::Level::Warning);
+  }
+  if (!elevator) {
+    logger::log("Elevator subsystem has not been initialized.", logger::Level::Warning);
+  }
+  if (!hatchManipulator) {
+    logger::log("Hatch manipulator subsystem has not been initialized.", logger::Level::Warning);
+  }
+  if (!cargoManipulator) {
+    logger::log("Cargo manipulator subsystem has not been initialized.", logger::Level::Warning);
+  }
 }
 
 void Robot::RobotPeriodic() {
@@ -88,29 +100,31 @@ void Robot::TeleopInit() {
 
   m_gyro->SetYaw(90.0);
 
+  #define SET_SUBSYSTEM_MODE(sys, mode) do { if (sys) { sys->setMode(mode); } } while (0)
+
   if (!Robot::disableInput->Get()) {
-    swerveTrain->setMode(OperationMode::Disable);
-    //elevator->setMode(OperationMode::Disable);
-    //hatchManipulator->setMode(OperationMode::Disable);
-    //cargoManipulator->setMode(OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(elevator, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(hatchManipulator, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Disable);
     return;
   }
 
   if (testModeChooser.GetSelected() == "enable") {
     logger::log("Starting robot in ENABLEd mode", logger::Level::Info);
-    swerveTrain->setMode(OperationMode::Enable);
-    //elevator->setMode(OperationMode::Enable);
-    //hatchManipulator->setMode(OperationMode::Enable);
-    //cargoManipulator->setMode(OperationMode::Enable);
+    SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Enable);
+    SET_SUBSYSTEM_MODE(elevator, OperationMode::Enable);
+    SET_SUBSYSTEM_MODE(hatchManipulator, OperationMode::Enable);
+    SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Enable);
     
     manualDrive->Start();
   }
   else if (testModeChooser.GetSelected() == "test") {
     logger::log("Starting robot in TEST mode", logger::Level::Info);
-    swerveTrain->setMode(OperationMode::Test);
-    //elevator->setMode(OperationMode::Test);
-    //hatchManipulator->setMode(OperationMode::Test);
-    //cargoManipulator->setMode(OperationMode::Test);
+    SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Test);
+    SET_SUBSYSTEM_MODE(elevator, OperationMode::Test);
+    SET_SUBSYSTEM_MODE(hatchManipulator, OperationMode::Test);
+    SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Test);
 
     manualDrive->Start();
   }
@@ -122,11 +136,13 @@ void Robot::TeleopInit() {
       logger::log("Invalid test option " + testModeChooser.GetSelected(), logger::Level::Error);
     }
 
-    swerveTrain->setMode(OperationMode::Disable);
-    //elevator->setMode(OperationMode::Disable);
-    //hatchManipulator->setMode(OperationMode::Disable);
-    //cargoManipulator->setMode(OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(elevator, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(hatchManipulator, OperationMode::Disable);
+    SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Disable);
   }
+
+  #undef SET_SUBSYSTEM_MODE
 }
 
 void Robot::TeleopPeriodic() {
