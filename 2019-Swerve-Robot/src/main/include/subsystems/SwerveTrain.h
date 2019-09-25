@@ -25,7 +25,7 @@ public:
 
   void InitDefaultCommand() override;
 
-  SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m);
+  SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > m);
 
   void drive(double xSpeed, double ySpeed, double angSpeed);
 

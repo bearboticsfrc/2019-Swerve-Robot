@@ -14,7 +14,7 @@ namespace logger {
             bool shouldPrintAt(Level level) {
                 return static_cast< int >(level) > static_cast< int >(currentLevel);
             }
-    };
+    }
 
     std::string getPrefix(Level level) {
         static const std::array< std::string, 4 > prefixes = { "[ERR]", "[WRN]", "[INF]", "[DBG]" };
@@ -37,4 +37,4 @@ namespace logger {
 
         std::cout << std::setprecision(3) << std::setw(5) << time << ": " << str << '\n';
     }
-};
+}

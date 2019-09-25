@@ -7,6 +7,7 @@
 
 #include "Robot.h"
 #include "Logger.h"
+#include "IDs.h"
 
 #include <string>
 #include <iostream>
@@ -48,22 +49,13 @@ void Robot::RobotInit() {
   // 3             | 7           | 2
   // 4             | 8           | 3
 
-// Neo port, swivel motor port, swivel sensor port, offset
-#define ENTRY(N, SM, SS, O) std::tuple< int, int, int, double >{ N, SM, SS, offsets[O] }
-
   // Initializes each swerve module based on the given ID and offset
   // Don't you love electrical's wiring assignment?
-  constexpr const std::array< double, SwerveTrain::moduleCount > offsets = { 28.0, 2.5, 27.0, 139.0 };
-  swerveTrain = std::make_unique< SwerveTrain >(std::array< std::tuple< int, int, int, double >, SwerveTrain::moduleCount >{
-    ENTRY(14,  8,  0,  0),
-    ENTRY(12, 11,  3,  1),
-    ENTRY( 3,  5,  2,  2),
-    ENTRY(15,  9,  1,  3)
-  });
+  swerveTrain = std::make_unique< SwerveTrain >(ids::swerve_train_ids);
 
-  m_joystick = std::make_unique< frc::Joystick >(0);
-  m_xboxController = std::make_unique< XboxControl >(1);
-  m_gyro = std::make_unique< PigeonIMU >(10);
+  m_joystick = std::make_unique< frc::Joystick >(ids::joystick_port);
+  m_xboxController = std::make_unique< XboxControl >(ids::controller_port);
+  m_gyro = std::make_unique< PigeonIMU >(ids::gyro_port);
 
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
   //hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);

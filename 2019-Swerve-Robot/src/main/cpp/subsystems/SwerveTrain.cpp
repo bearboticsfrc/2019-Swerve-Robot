@@ -15,7 +15,7 @@ void SwerveTrain::setMode(OperationMode m) {
   mode = m;
 }
 
-SwerveTrain::SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > &&m) :
+SwerveTrain::SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > m) :
   Subsystem("ExampleSubsystem")
 {
   for (int i = 0; i < moduleCount; ++i) {

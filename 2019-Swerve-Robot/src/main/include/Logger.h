@@ -9,4 +9,4 @@ namespace logger {
 
     // Adds a new message with the given level
     void log(const std::string& str, Level msgLevel);
-};
+}
