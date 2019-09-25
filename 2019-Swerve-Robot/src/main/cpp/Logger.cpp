@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <array>
 #include <frc/Timer.h>
+#include <time.h>
 
 namespace logger {
     namespace {
@@ -35,6 +36,11 @@ namespace logger {
 
         double time = frc::GetTime();
 
-        std::cout << std::setprecision(3) << std::setw(5) << time << ": " << str << '\n';
+        time_t temp = time;
+        struct tm *tm = localtime(&temp);
+        char t[20];
+        strftime(t, sizeof(t), "%M:%S", tm);
+
+        std::cout << t << "." << std::setprecision(3) << time - (long)time << ": " << str << '\n';
     }
 }

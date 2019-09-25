@@ -21,8 +21,8 @@ void ManualHatchManip::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ManualHatchManip::Execute() {
-  Robot::hatchManipulator->setExtended(Robot::m_joystick->GetTrigger());
-  Robot::hatchManipulator->setSuction(Robot::m_joystick->GetZ() > 0.5);
+  Robot::hatchManipulator->setExtended(Robot::m_xboxController->GetLeftBumper());
+  Robot::hatchManipulator->setSuction(Robot::m_xboxController->GetRightJoystickY() > 0.5);
 }
 
 // Make this return true when this Command no longer needs to run execute()
