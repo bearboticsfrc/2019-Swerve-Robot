@@ -12,14 +12,13 @@ void HatchManipulator::setMode(OperationMode m) {
   mode = m;
 }
 
-HatchManipulator::HatchManipulator(int extendPort, int retractPort, int motorPort) :
+HatchManipulator::HatchManipulator(int extendPort, int retractPort, int suctionPort) :
   Subsystem("HatchManipulator"),
   extendSolenoid(extendPort),
   retractSolenoid(retractPort),
-  driveMotor(motorPort)
+  suctionSolenoid(suctionPort)
 {
   setExtended(false);
-  setMotorSpeed(0.0);
 }
 
 void HatchManipulator::InitDefaultCommand() {
@@ -41,22 +40,17 @@ void HatchManipulator::setExtended(bool extended) {
   }
 }
 
-void HatchManipulator::setMotorSpeed(double speed) {
-  double multiplier = 0.0;
-  switch (mode) {
-  case OperationMode::Disable:
-    multiplier = 0.0;
-    break;
-  case OperationMode::Test:
-    multiplier = 0.1;
-    break;
-  case OperationMode::Enable:
-    multiplier = 1.0;
-    break;
+void HatchManipulator::setSuction(bool suction) {
+  if (mode == OperationMode::Disable) {
+    logger::log("Tried to set suction but disabled", logger::Level::Debug);
+    suctionSolenoid.Set(false);
   }
-  logger::log("Set hatch manipulator motor speed to " + std::to_string(speed), logger::Level::Info);
-  driveMotor.Set(speed * multiplier);
+  else {
+    logger::log("Set suction to " + std::to_string(suction), logger::Level::Info);
+    suctionSolenoid.Set(suction);
+  }
 }
+
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

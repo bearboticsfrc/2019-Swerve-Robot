@@ -20,17 +20,17 @@ class HatchManipulator : public frc::Subsystem {
   frc::Solenoid extendSolenoid;
   frc::Solenoid retractSolenoid;
 
-  WPI_VictorSPX driveMotor;
+  frc::Solenoid suctionSolenoid;
 
   OperationMode mode = OperationMode::Disable;
 
  public:
-  HatchManipulator(int extendPort, int retractPort, int motorPort);
+  HatchManipulator(int extendPort, int retractPort, int suctionPort);
   void InitDefaultCommand() override;
 
   void setExtended(bool extended);
 
-  void setMotorSpeed(double speed);
+  void setSuction(bool suction);
 
   void setMode(OperationMode m);
 };
