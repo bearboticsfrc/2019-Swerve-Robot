@@ -1,6 +1,6 @@
 #include "SwerveModule.h"
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include <iostream>
 SwerveModule::SwerveModule(int driveMotorId, int pivotMotorId, int pivotSensorId, double zeroAngle) :
     m_driveMotor(driveMotorId, rev::CANSparkMax::MotorType::kBrushless),
     m_pivotMotor(pivotMotorId),
