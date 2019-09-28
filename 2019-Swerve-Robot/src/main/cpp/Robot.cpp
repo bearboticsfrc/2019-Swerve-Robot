@@ -16,7 +16,9 @@
 #include <string>
 #include <math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <CameraServer.h>
 #include <frc/commands/Scheduler.h>
+#include <frc/PowerDistributionPanel.h>
 
 std::unique_ptr< frc::Joystick > Robot::m_joystick{};
 std::unique_ptr< XboxControl > Robot::m_xboxController{};
@@ -31,12 +33,18 @@ std::unique_ptr< CargoManipulator > Robot::cargoManipulator{};
 
 /* ------ Commands ------ */
 std::unique_ptr< ManualDrive > Robot::manualDrive{};
+std::unique_ptr< ManualHatchManip > Robot::manualHatchManip{};
+std::unique_ptr< ManualCargoManip > Robot::manualCargoManip{};
+std::unique_ptr< ManualElevator > Robot::manualElevator{};
 
 void Robot::RobotInit() {
-  frc::SmartDashboard::init(); 
-  testModeChooser.AddOption("Enable Mode", "enable");
-  testModeChooser.AddOption("Test Mode", "test");
-  testModeChooser.SetDefaultOption("Disable Mode", "disable");
+  //frc::SmartDashboard::PutNumber("Operation Mode", 0);
+
+  vacuum = std::make_unique< WPI_VictorSPX >(ids::vacuum_port);
+
+  testModeChooser.SetDefaultOption("Disable Mode", 0);
+  testModeChooser.AddOption("Test Mode", 1);
+  testModeChooser.AddOption("Enable Mode", 2);
   frc::SmartDashboard::PutData("Operation Mode Selector", &testModeChooser);
 
   // Initializes each swerve module based on the given ID and offset
@@ -49,13 +57,20 @@ void Robot::RobotInit() {
   //HatchManipulator(int extendPort, int retractPort, int motorPort);
   //hatchManipulator = std::make_unique< HatchManipulator >(0, 1, 9);
   //CargoManipulator(int neoPort, int motorPort, int limitPort);
-  //cargoManipulator = std::make_unique< CargoManipulator >(10, 11, 2);
+  cargoManipulator = std::make_unique< CargoManipulator >(ids::cargo_manip_intake_port, ids::cargo_manip_angle_motor_port, ids::cargo_manip_angle_sensor_port);
+  hatchManipulator = std::make_unique< HatchManipulator >(ids::hatch_manip_extend_port, ids::hatch_manip_retract_port, ids::hatch_manip_suction_port);
+  elevator = std::make_unique< Elevator >(ids::elevator_main_port, ids::elevator_aux_port);
 
   manualDrive = std::make_unique< ManualDrive >();
+  manualHatchManip = std::make_unique< ManualHatchManip >();
+  manualCargoManip = std::make_unique< ManualCargoManip >();
+  manualElevator = std::make_unique< ManualElevator >();
 
   swerveTrain->SetDefaultCommand(manualDrive.get());
 
   disableInput = std::make_unique< frc::DigitalInput >(9);
+
+  logger::setLevel(logger::Level::Info);
 
   if (!swerveTrain) {
     logger::log("Swervetrain subsystem has not been initialized.", logger::Level::Warning);
@@ -69,6 +84,8 @@ void Robot::RobotInit() {
   if (!cargoManipulator) {
     logger::log("Cargo manipulator subsystem has not been initialized.", logger::Level::Warning);
   }
+
+  frc::CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
 void Robot::RobotPeriodic() {
@@ -82,6 +99,14 @@ void Robot::RobotPeriodic() {
     temp -= 360.0 * std::floor(temp / 360.0);
 
     frc::SmartDashboard::PutNumber("Swerve Speed " + std::to_string(i), temp);
+  }
+
+  if (elevator) {
+    frc::SmartDashboard::PutNumber("Elevator position", elevator->getSensorPosition());
+  }
+
+  if (cargoManipulator) {
+    frc::SmartDashboard::PutNumber("Cargo manip angle", cargoManipulator->getSensorPosition());
   }
 }
 
@@ -110,7 +135,11 @@ void Robot::TeleopInit() {
     return;
   }
 
-  if (testModeChooser.GetSelected() == "enable") {
+  std::cout << "Chooser is " << testModeChooser.GetSelected() << "\n";
+
+  int selected = testModeChooser.GetSelected();
+
+  if (selected == 2) {
     logger::log("Starting robot in ENABLEd mode", logger::Level::Info);
     SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Enable);
     SET_SUBSYSTEM_MODE(elevator, OperationMode::Enable);
@@ -118,8 +147,11 @@ void Robot::TeleopInit() {
     SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Enable);
     
     manualDrive->Start();
+    manualHatchManip->Start();
+    manualCargoManip->Start();
+    manualElevator->Start();
   }
-  else if (testModeChooser.GetSelected() == "test") {
+  else if (selected == 1) {
     logger::log("Starting robot in TEST mode", logger::Level::Info);
     SET_SUBSYSTEM_MODE(swerveTrain, OperationMode::Test);
     SET_SUBSYSTEM_MODE(elevator, OperationMode::Test);
@@ -127,9 +159,12 @@ void Robot::TeleopInit() {
     SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Test);
 
     manualDrive->Start();
+    manualHatchManip->Start();
+    manualCargoManip->Start();
+    manualElevator->Start();
   }
   else {
-    if (testModeChooser.GetSelected() == "disable") {
+    if (selected == 0) {
       logger::log("Starting robot in DISABLEd mode", logger::Level::Info);
     }
     else {
@@ -147,6 +182,27 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
   frc::Scheduler::GetInstance()->Run();
+
+  vacuum->Set(1.0);
+
+  frc::PowerDistributionPanel pdp;
+  frc::SmartDashboard::PutNumber("Cargo Spinny Current", pdp.GetCurrent(ids::cargo_manip_intake_port));
+  frc::SmartDashboard::PutNumber("Vacuum Current", pdp.GetCurrent(ids::vacuum_port));
+
+  //static double startTime = frc::GetTime();
+
+  //double setpoint = (-std::cos(frc::GetTime() - startTime)) * 15.0 + 15.0;
+
+  static double setpoint = elevator->getSensorPosition();
+  setpoint += 0.05 * m_xboxController->GetDPadY();
+  //elevator->setSetpoint(setpoint);
+
+  //elevator->setSetpoint(3.0);
+
+  //cargoManipulator->angleMotor.Set(0.1);
+
+  frc::SmartDashboard::PutNumber("Elevator power", elevator->controller.Get());
+
 }
 
 void Robot::TestPeriodic() {}

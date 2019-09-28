@@ -8,21 +8,22 @@
 #include "commands/ManualHatchManip.h"
 #include "Robot.h"
 
-ManualHatchManip::ManualHatchManip() :
-  frc::Command(*Robot::hatchManipulator)
-{
-
+ManualHatchManip::ManualHatchManip() {
+  Requires(Robot::hatchManipulator.get());
+  // Use Requires() here to declare subsystem dependencies
+  // eg. Requires(Robot::chassis.get());
 }
 
 // Called just before this Command runs the first time
-void ManualHatchManip::Initialize() {
-
-}
+void ManualHatchManip::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void ManualHatchManip::Execute() {
-  Robot::hatchManipulator->setExtended(Robot::m_xboxController->GetLeftBumper());
-  Robot::hatchManipulator->setSuction(Robot::m_xboxController->GetRightJoystickY() > 0.5);
+  if (Robot::m_xboxController->controller.GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand)) {
+    Robot::hatchManipulator->setExtended(!Robot::hatchManipulator->getExtended());
+  }
+
+  Robot::hatchManipulator->setSuction((Robot::m_xboxController->GetDPadX() == -1));
 }
 
 // Make this return true when this Command no longer needs to run execute()

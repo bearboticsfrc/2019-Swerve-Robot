@@ -13,7 +13,7 @@ namespace logger {
             // Returns whether or not a message with the given level should be displayed
             // e.g. if we're at Error level, don't display Debug-level messages
             bool shouldPrintAt(Level level) {
-                return static_cast< int >(level) > static_cast< int >(currentLevel);
+                return static_cast< int >(level) >= static_cast< int >(currentLevel);
             }
     }
 

@@ -14,19 +14,42 @@
 
 #include <frc/PIDController.h>
 
+class NeoPID : public frc::PIDSource {
+public:
+  NeoPID(rev::CANSparkMax *ptr) : spark(ptr) {}
+
+  virtual double PIDGet() override {
+    switch (m_pidSource) {
+      case frc::PIDSourceType::kDisplacement:
+        return spark->GetEncoder().GetPosition();
+      case frc::PIDSourceType::kRate:
+        return spark->GetEncoder().GetVelocity();
+    }
+  }
+
+private:
+  rev::CANSparkMax *spark;
+
+};
+
 class Elevator : public frc::Subsystem {
+  friend class Robot;
 public:
   Elevator(int mainMotorId, int auxMotorId);
   void InitDefaultCommand() override;
 
   void setMode(OperationMode m);
 
-private:
+  double getSensorPosition();
+
   void setSetpoint(double point);
 
+private:
   rev::CANSparkMax mainMotor, auxMotor;
 
-  rev::CANPIDController controller;
+  frc::PIDController controller;
+
+  NeoPID neoPID{ &mainMotor };
 
   OperationMode mode = OperationMode::Disable;
 };

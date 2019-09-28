@@ -19,6 +19,8 @@ private:
   WPI_VictorSPX intakeMotor;
   WPI_VictorSPX angleMotor;
 
+  int currentPort;
+
   frc::AnalogInput angleSensor;
 
   frc::PIDController angleController;
@@ -29,10 +31,16 @@ public:
   CargoManipulator(int intakeMotorPort, int angleMotorPort, int angleSensorPort);
   void InitDefaultCommand() override;
 
+  double getSensorPosition();
+
   void setMode(OperationMode m);
 
   // +1.0 is maximum speed outwards, -1.0 is maximum speed inwards
   void setIntakeSpeed(double speed);
 
-  void extendManipulator(bool extend);
+  void extendManipulator(int extend);
+
+  double getCurrent() const;
+
+  bool getExtended() const;
 };

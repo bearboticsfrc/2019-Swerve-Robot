@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "XboxControl.h"
+#include <iostream>
 
 XboxControl::XboxControl(int port) : 
 Subsystem("XboxControl"),
@@ -36,5 +37,37 @@ bool XboxControl::GetLeftBumper() {
 bool XboxControl::GetRightBumper() {
   return controller.GetBumper(frc::GenericHID::JoystickHand::kRightHand);
 }
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+int XboxControl::GetDPadX() {
+  int pov = controller.GetPOV();
+  if (pov == -1) {
+    return 0;
+  }
+  else if (45 <= pov && pov <= 135){
+    return 1;
+  }
+  else if (225 <= pov && pov <= 315) {
+    return -1;
+  }
+  else {
+    return 0;
+  }
+}
+
+int XboxControl::GetDPadY() {
+  int pov = controller.GetPOV();
+  if (pov == -1) {
+    return 0;
+  }
+  else if (0 <= pov && pov <= 45) {
+    return 1;
+  }
+  else if (315 <= pov) {
+    return 1;
+  }
+  else if (135 <= pov && pov <= 225) {
+    return -1;
+  }
+  else {
+    return 0;
+  }
+}

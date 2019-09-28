@@ -30,6 +30,8 @@ class HatchManipulator : public frc::Subsystem {
 
   void setExtended(bool extended);
 
+  bool getExtended() const;
+
   void setSuction(bool suction);
 
   void setMode(OperationMode m);

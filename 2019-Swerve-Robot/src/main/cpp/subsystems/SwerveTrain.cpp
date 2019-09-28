@@ -100,7 +100,7 @@ void SwerveTrain::drive(double xSpeed, double ySpeed, double angSpeed) {
     }
 
     for (int i = 0; i < 4; ++i) {
-      double multiplier = ((mode == OperationMode::Test) ? 0.1 : 1.0);
+      double multiplier = ((mode == OperationMode::Test) ? 1.0 : 1.0);
       frc::SmartDashboard::PutNumber("Swerve Target " + std::to_string(i), targets[i].second);
       modules[i]->Set(targets[i].first * maxSpeed * multiplier, targets[i].second);
       //m_sparks[i]->Set(targets[i].first);

@@ -13,8 +13,9 @@ class XboxControl : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  frc::XboxController controller;
  public:
+  frc::XboxController controller;
+
   void InitDefaultCommand() override;
   
   XboxControl(int port);
@@ -25,4 +26,7 @@ class XboxControl : public frc::Subsystem {
   double GetRightJoystickY();
   bool GetLeftBumper();
   bool GetRightBumper();
+
+  int GetDPadY();
+  int GetDPadX();
 };
