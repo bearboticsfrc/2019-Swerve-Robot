@@ -37,13 +37,13 @@ void HatchManipulator::setExtended(bool extended) {
     if (extended != extendSolenoid.Get()) {
       logger::log("Set hatch manipulator extendedness to " + std::to_string(extended), logger::Level::Info);
     }
-    extendSolenoid.Set(extended);
-    retractSolenoid.Set(!extended);
+    extendSolenoid.Set(!extended);
+    retractSolenoid.Set(extended);
   }
 }
 
 bool HatchManipulator::getExtended() const {
-  return extendSolenoid.Get();
+  return !extendSolenoid.Get();
 }
 
 void HatchManipulator::setSuction(bool suction) {

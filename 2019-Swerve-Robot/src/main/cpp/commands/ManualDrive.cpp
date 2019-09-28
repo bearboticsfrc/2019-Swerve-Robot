@@ -24,6 +24,12 @@ void ManualDrive::Execute() {
   double y = -Robot::m_xboxController->GetLeftJoystickY();
   double r = -Robot::m_xboxController->GetRightJoystickX();
 
+  x = x * x * x;
+  y = y * y * y;
+
+  r = r * r * r;
+  r *= 0.5;
+
   Robot::swerveTrain->drive(x, y, r);
 }
 

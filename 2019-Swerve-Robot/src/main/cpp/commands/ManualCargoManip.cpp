@@ -28,7 +28,7 @@ std::string to_string(TakeMode mode) {
 
 // Called repeatedly when this Command is scheduled to run
 void ManualCargoManip::Execute() {
-  if (Robot::m_xboxController->controller.GetXButtonPressed()) {
+  if (Robot::m_xboxController->controller.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
       Robot::cargoManipulator->extendManipulator(1 + !Robot::cargoManipulator->getExtended());
   }
 
@@ -36,7 +36,7 @@ void ManualCargoManip::Execute() {
 
   frc::SmartDashboard::PutString("Take Mode", to_string(takeMode));
 
-  if (Robot::m_xboxController->GetRightBumper()) {
+  if (Robot::m_xboxController->controller.GetXButton()) {
     if (takeMode == TakeMode::None) {
       takeMode = TakeMode::TryIntake;
     }

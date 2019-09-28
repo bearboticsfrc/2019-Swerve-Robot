@@ -70,7 +70,7 @@ void Robot::RobotInit() {
 
   disableInput = std::make_unique< frc::DigitalInput >(9);
 
-  logger::setLevel(logger::Level::Info);
+  logger::setLevel(logger::Level::Warning);
 
   if (!swerveTrain) {
     logger::log("Swervetrain subsystem has not been initialized.", logger::Level::Warning);
@@ -85,7 +85,7 @@ void Robot::RobotInit() {
     logger::log("Cargo manipulator subsystem has not been initialized.", logger::Level::Warning);
   }
 
-  frc::CameraServer::GetInstance()->StartAutomaticCapture();
+  frc::CameraServer::GetInstance()->StartAutomaticCapture().SetResolution(160, 120);
 }
 
 void Robot::RobotPeriodic() {
@@ -121,8 +121,6 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
   frc::Scheduler::GetInstance()->RemoveAll();
 
-  std::cout << "Starting teleop init\n";
-
   m_gyro->SetYaw(90.0);
 
   #define SET_SUBSYSTEM_MODE(sys, mode) do { if (sys) { sys->setMode(mode); } } while (0)
@@ -134,8 +132,6 @@ void Robot::TeleopInit() {
     SET_SUBSYSTEM_MODE(cargoManipulator, OperationMode::Disable);
     return;
   }
-
-  std::cout << "Chooser is " << testModeChooser.GetSelected() << "\n";
 
   int selected = testModeChooser.GetSelected();
 

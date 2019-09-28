@@ -47,6 +47,9 @@ Level levelFromInput(XboxControl& control) {
   if (control.controller.GetAButton()) {
     return Level::CargoLevel1;
   }
+  if (control.controller.GetRawButton(8)) {
+    return Level::CargoShip;
+  }
   /*if (control.controller.GetPOV() == 0) {
     return Level::HatchLevel3;
   }*/
