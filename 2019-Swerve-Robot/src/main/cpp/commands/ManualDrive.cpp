@@ -27,8 +27,7 @@ void ManualDrive::Execute() {
   x = x * x * x;
   y = y * y * y;
 
-  r = r * r * r;
-  r *= 0.5;
+  r = r * r * r * r * r;
 
   Robot::swerveTrain->drive(x, y, r);
 }

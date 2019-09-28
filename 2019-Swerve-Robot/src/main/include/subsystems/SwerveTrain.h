@@ -21,8 +21,8 @@ private:
 
 public:
   static constexpr const std::size_t moduleCount = 4;
-  static constexpr const double maxSpeed = 0.3;
-
+  static constexpr const double maxSpeed = 0.69; //nice
+ 
   void InitDefaultCommand() override;
 
   SwerveTrain(std::array< std::tuple< int, int, int, double >, moduleCount > m);

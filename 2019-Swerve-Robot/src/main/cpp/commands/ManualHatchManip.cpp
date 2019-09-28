@@ -15,7 +15,9 @@ ManualHatchManip::ManualHatchManip() {
 }
 
 // Called just before this Command runs the first time
-void ManualHatchManip::Initialize() {}
+void ManualHatchManip::Initialize() {
+  Robot::hatchManipulator->setSuction(false);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ManualHatchManip::Execute() {
