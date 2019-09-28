@@ -14,7 +14,7 @@
 constexpr const static std::pair< double, double > maxAngleSpeed{ -0.5, 0.5 };
 constexpr const static std::pair< double, double > maxIntakeSpeed{ -1.0, 1.0 };
 
-constexpr const static double testMultiplier = 0.5;
+constexpr const static double testMultiplier = 0.8;
 
 constexpr const static double extendedAngle = 2.35;
 constexpr const static double playingAngle = 3.8;
@@ -73,9 +73,15 @@ void CargoManipulator::InitDefaultCommand(){
 }
 
 void CargoManipulator::setIntakeSpeed(double speed) {
-  std::array< double, 3 > multipliers{ 0.0, 0.4, 1.0 };
+  std::array< double, 3 > multipliers{ 0.0, 0.6, 1.0 };
 
-  intakeMotor.Set(speed * multipliers[static_cast< int >(mode)]);
+  speed *= multipliers[static_cast< int >(mode)];
+
+  if (speed > 0.0) {
+    speed = 1.0;
+  }
+
+  intakeMotor.Set(speed);
 }
 
 void CargoManipulator::extendManipulator(int extend) {

@@ -29,12 +29,12 @@ enum class Level {
 };
 
 std::unordered_map< Level, double > levelHeights{
-  { Level::HatchLevel1, 0.595 },
+  { Level::HatchLevel1, 0.7 },
   { Level::HatchLevel2, 21.524 },
-  { Level::CargoLevel1, 0.0 },
+  { Level::CargoLevel1, 0.7 },
   { Level::CargoLevel2, 16 },
   { Level::CargoLevel3, 32 },
-  { Level::CargoShip, 0.1  }
+  { Level::CargoShip, 8.0  }
 };
 
 Level levelFromInput(XboxControl& control) {

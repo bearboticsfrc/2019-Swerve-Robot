@@ -15,7 +15,9 @@ ManualCargoManip::ManualCargoManip() {
 }
 
 // Called just before this Command runs the first time
-void ManualCargoManip::Initialize() {}
+void ManualCargoManip::Initialize() {
+  Robot::cargoManipulator->extendManipulator(1);
+}
 
 enum class TakeMode {
   None, TryIntake, Outtake, Intake
@@ -28,7 +30,7 @@ std::string to_string(TakeMode mode) {
 
 // Called repeatedly when this Command is scheduled to run
 void ManualCargoManip::Execute() {
-  if (Robot::m_xboxController->controller.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
+  if (Robot::m_xboxController->controller.GetXButtonPressed()) {
       Robot::cargoManipulator->extendManipulator(1 + !Robot::cargoManipulator->getExtended());
   }
 
@@ -36,7 +38,7 @@ void ManualCargoManip::Execute() {
 
   frc::SmartDashboard::PutString("Take Mode", to_string(takeMode));
 
-  if (Robot::m_xboxController->controller.GetXButton()) {
+  if (Robot::m_xboxController->controller.GetBumper(frc::GenericHID::JoystickHand::kRightHand)) {
     if (takeMode == TakeMode::None) {
       takeMode = TakeMode::TryIntake;
     }
@@ -57,7 +59,7 @@ void ManualCargoManip::Execute() {
           successCount = failCount = 0;
           takeMode = TakeMode::Outtake;
         }
-        else if (failCount > 100) {
+        else if (failCount > 20) {
           successCount = failCount = 0;
           takeMode = TakeMode::Intake;
         }

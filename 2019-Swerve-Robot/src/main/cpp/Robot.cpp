@@ -121,6 +121,7 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
   frc::Scheduler::GetInstance()->RemoveAll();
 
+
   m_gyro->SetYaw(90.0);
 
   #define SET_SUBSYSTEM_MODE(sys, mode) do { if (sys) { sys->setMode(mode); } } while (0)
@@ -180,6 +181,10 @@ void Robot::TeleopPeriodic() {
   frc::Scheduler::GetInstance()->Run();
 
   vacuum->Set(1.0);
+  
+  if (m_xboxController->controller.GetRawButtonPressed(7)) {
+    m_gyro->SetYaw(90.0);
+  }
 
   frc::PowerDistributionPanel pdp;
   frc::SmartDashboard::PutNumber("Cargo Spinny Current", pdp.GetCurrent(ids::cargo_manip_intake_port));
