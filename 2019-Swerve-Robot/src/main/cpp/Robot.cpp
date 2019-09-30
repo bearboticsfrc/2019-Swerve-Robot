@@ -40,7 +40,7 @@ std::unique_ptr< ManualElevator > Robot::manualElevator{};
 void Robot::RobotInit() {
   //frc::SmartDashboard::PutNumber("Operation Mode", 0);
 
-  vacuum = std::make_unique< WPI_VictorSPX >(ids::vacuum_port);
+  //vacuum = std::make_unique< WPI_VictorSPX >(ids::vacuum_port);
 
   testModeChooser.SetDefaultOption("Disable Mode", 0);
   testModeChooser.AddOption("Test Mode", 1);
@@ -180,7 +180,7 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
   frc::Scheduler::GetInstance()->Run();
 
-  vacuum->Set(1.0);
+  //vacuum->Set(1.0);
   
   if (m_xboxController->controller.GetRawButtonPressed(7)) {
     m_gyro->SetYaw(90.0);

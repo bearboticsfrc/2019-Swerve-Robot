@@ -21,7 +21,7 @@ private:
 
 public:
   static constexpr const std::size_t moduleCount = 4;
-  static constexpr const double maxSpeed = 0.69; //nice
+  static constexpr const double maxSpeed = 0.869; //nice
  
   void InitDefaultCommand() override;
 

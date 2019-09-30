@@ -48,7 +48,7 @@ void ManualCargoManip::Execute() {
       {
         static int successCount = 0;
         static int failCount = 0;
-        if (Robot::cargoManipulator->getCurrent() > 4) {
+        if (Robot::cargoManipulator->getCurrent() > 6) {
           ++successCount;
         }
         else {

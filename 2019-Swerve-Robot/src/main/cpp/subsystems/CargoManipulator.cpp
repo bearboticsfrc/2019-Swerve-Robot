@@ -16,9 +16,9 @@ constexpr const static std::pair< double, double > maxIntakeSpeed{ -1.0, 1.0 };
 
 constexpr const static double testMultiplier = 0.8;
 
-constexpr const static double extendedAngle = 2.35;
-constexpr const static double playingAngle = 3.8;
-constexpr const static double retractedAngle = 4.0;
+constexpr const static double extendedAngle = 2.8;
+constexpr const static double playingAngle = 3.8 + 0.4;
+constexpr const static double retractedAngle = 4.0 + 0.4;
 
 double CargoManipulator::getCurrent() const {
   frc::PowerDistributionPanel pdp;
