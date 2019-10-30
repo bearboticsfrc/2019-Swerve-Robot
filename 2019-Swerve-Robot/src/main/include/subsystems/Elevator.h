@@ -42,6 +42,10 @@ public:
 
   double getSensorPosition();
 
+  bool isBlocked() const;
+
+  bool isLow() const;
+
   void setSetpoint(double point);
 
 private:

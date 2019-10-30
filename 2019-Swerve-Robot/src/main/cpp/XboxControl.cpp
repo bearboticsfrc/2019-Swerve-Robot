@@ -11,9 +11,9 @@
 XboxControl::XboxControl(int port) : 
 Subsystem("XboxControl"),
 controller(port)
- {
+{
 
- }
+}
 
 void XboxControl::InitDefaultCommand() {
   // Set the default command for a subsystem here.

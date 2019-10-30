@@ -19,6 +19,7 @@ HatchManipulator::HatchManipulator(int extendPort, int retractPort, int suctionP
   suctionSolenoid(suctionPort)
 {
   setExtended(false);
+  setSuction(false);
 }
 
 void HatchManipulator::InitDefaultCommand() {

@@ -28,8 +28,20 @@ std::string to_string(TakeMode mode) {
 
 // Called repeatedly when this Command is scheduled to run
 void ManualCargoManip::Execute() {
-  if (Robot::m_xboxController->controller.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
-      Robot::cargoManipulator->extendManipulator(1 + !Robot::cargoManipulator->getExtended());
+  if (Robot::manualElevator && Robot::manualElevator->IsRunning()) {
+    
+  }
+  else {
+    if (Robot::m_xboxController->controller.GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand)) {
+      auto pos = Robot::cargoManipulator->getPosition();
+      switch (pos) {
+      case CargoManipulator::Position::Extend:
+        Robot::cargoManipulator->setPosition(CargoManipulator::Position::PartialRetract);
+        break;
+      default:
+        Robot::cargoManipulator->setPosition(CargoManipulator::Position::Extend);
+      }
+    }
   }
 
   static TakeMode takeMode = TakeMode::None;

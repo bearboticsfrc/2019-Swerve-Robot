@@ -15,6 +15,11 @@
 #include <ctre/Phoenix.h>
 
 class CargoManipulator : public frc::Subsystem {
+public:
+  enum class Position {
+    FullRetract, PartialRetract, Extend
+  };
+
 private:
   WPI_VictorSPX intakeMotor;
   WPI_VictorSPX angleMotor;
@@ -27,7 +32,10 @@ private:
 
   OperationMode mode = OperationMode::Disable;
 
+  Position position;
+
 public:
+
   CargoManipulator(int intakeMotorPort, int angleMotorPort, int angleSensorPort);
   void InitDefaultCommand() override;
 
@@ -38,9 +46,11 @@ public:
   // +1.0 is maximum speed outwards, -1.0 is maximum speed inwards
   void setIntakeSpeed(double speed);
 
-  void extendManipulator(int extend);
+  void setPosition(Position pos);
 
   double getCurrent() const;
 
-  bool getExtended() const;
+  Position getPosition() const;
 };
+
+std::ostream& operator<< (std::ostream& stream, CargoManipulator::Position pos);

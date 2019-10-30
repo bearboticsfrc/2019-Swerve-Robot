@@ -57,13 +57,13 @@ CargoManipulator::CargoManipulator(int intakeMotorPort, int angleMotorPort, int 
 { 
   angleMotor.SetNeutralMode(NeutralMode::Brake);
   angleMotor.SetInverted(true);
-  extendManipulator(false);
+  setPosition(Position::FullRetract);
   setMode(OperationMode::Disable);
   angleController.Disable();
   angleController.SetSetpoint(retractedAngle);
 }
 
-bool CargoManipulator::getExtended() const {
+bool CargoManipulator::getPosition() const {
   return std::abs(angleController.GetSetpoint() - extendedAngle) < 0.01;
 }
 
@@ -78,35 +78,39 @@ void CargoManipulator::setIntakeSpeed(double speed) {
   intakeMotor.Set(speed * multipliers[static_cast< int >(mode)]);
 }
 
-void CargoManipulator::extendManipulator(int extend) {
-    if (mode == OperationMode::Disable) {
+void CargoManipulator::setPosition(Position extend) {
+  if (mode == OperationMode::Disable) {
+    std::stringstream str;
+    str << "Tried to set cargo manip extendedness to ";
+    str << std::boolalpha << extend;
+    str << "but it is disabled";
+    logger::log(str.str(), logger::Level::Debug);
+  }
+  else {
+    if (getPosition() != extend) {
       std::stringstream str;
-      str << "Tried to set cargo manip extendedness to ";
+      str << "Set cargo manipulator extendedness to ";
       str << std::boolalpha << extend;
-      str << "but it is disabled";
-      logger::log(str.str(), logger::Level::Debug);
+      logger::log(str.str(), logger::Level::Info);
     }
-    else {
-      if (extend != getExtended()) {
-        std::stringstream str;
-        str << "Set cargo manipulator extendedness to ";
-        str << std::boolalpha << extend;
-        logger::log(str.str(), logger::Level::Info);
-      }
 
-      switch (extend) {
-      case 0:
-        angleController.SetSetpoint(retractedAngle);
-        break;
-      case 1:
-        angleController.SetSetpoint(playingAngle);
-        break;
-      case 2:
-        angleController.SetSetpoint(extendedAngle);
-        break;
-      case 3:
-        angleController.SetSetpoint(3.6);
-        break;
-      }
+    switch (extend) {
+    case Position::FullRetract:
+      angleController.SetSetpoint(retractedAngle);
+      break;
+    case Position::PartialRetract:
+      angleController.SetSetpoint(playingAngle);
+      break;
+    case Position::Extend:
+      angleController.SetSetpoint(extendedAngle);
+      break;
     }
+  }
+  position = extend;
+}
+
+std::ostream& operator<< (std::ostream& stream, CargoManipulator::Position pos) {
+  const char *names[] = { "FullRetract", "PartialRetract", "Extend" };
+
+  stream << names[static_cast< int >(pos)];
 }
