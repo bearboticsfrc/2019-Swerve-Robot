@@ -9,16 +9,16 @@
 #include <iostream>
 
 XboxControl::XboxControl(int port) : 
-Subsystem("XboxControl"),
+frc2::SubsystemBase(),
 controller(port)
  {
 
  }
 
-void XboxControl::InitDefaultCommand() {
+//void XboxControl::InitDefaultCommand() {
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
-}
+//}
 double XboxControl::GetLeftJoystickX() {
  return controller.GetX(frc::GenericHID::JoystickHand::kLeftHand);
 }

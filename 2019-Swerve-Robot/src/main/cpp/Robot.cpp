@@ -16,7 +16,7 @@
 #include <string>
 #include <math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <CameraServer.h>
+#include <cameraserver/CameraServer.h>
 #include <frc/commands/Scheduler.h>
 #include <frc/PowerDistributionPanel.h>
 

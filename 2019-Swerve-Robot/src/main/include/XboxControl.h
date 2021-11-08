@@ -7,16 +7,16 @@
 
 #pragma once
 
-#include <frc/commands/Subsystem.h>
+#include <frc2/command/SubsystemBase.h>
 #include <frc/XboxController.h>
-class XboxControl : public frc::Subsystem {
+class XboxControl : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
  public:
   frc::XboxController controller;
 
-  void InitDefaultCommand() override;
+  //void InitDefaultCommand() override;
   
   XboxControl(int port);
 
