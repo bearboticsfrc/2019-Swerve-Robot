@@ -19,15 +19,9 @@
 #include <ctre/Phoenix.h>
 
 #include "subsystems/SwerveTrain.h"
-#include "subsystems/Elevator.h"
-#include "subsystems/HatchManipulator.h"
-#include "subsystems/CargoManipulator.h"
 #include "XboxControl.h"
 
 #include "commands/ManualDrive.h"
-#include "commands/ManualHatchManip.h"
-#include "commands/ManualCargoManip.h"
-#include "commands/ManualElevator.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -57,13 +51,8 @@ public:
 
   /* ----- Subsystems ----- */
   static std::unique_ptr< SwerveTrain > swerveTrain;
-  static std::unique_ptr< Elevator > elevator;
-  static std::unique_ptr< HatchManipulator > hatchManipulator;
-  static std::unique_ptr< CargoManipulator > cargoManipulator;
 
   /* ------ Commands ------ */
   static std::unique_ptr< ManualDrive > manualDrive;
-  static std::unique_ptr< ManualHatchManip > manualHatchManip;
-  static std::unique_ptr< ManualCargoManip > manualCargoManip;
-  static std::unique_ptr< ManualElevator > manualElevator;
+ 
 };
